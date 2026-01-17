@@ -1,0 +1,343 @@
+{
+  "meta": {
+    "currency": "GEL",
+    "languages": ["en", "ru", "ka"],
+    "version": "1.1.0",
+    "last_updated": "2024-05-24"
+  },
+  "categories": [
+    {
+      "id": "bruschettas",
+      "i18n": {
+        "en": "Appetizers & Bruschettas",
+        "ru": "Закуски и брускетты",
+        "ka": "ბრუსკეტები და საუზმეული"
+      }
+    },
+    {
+      "id": "pastry",
+      "i18n": {
+        "en": "Pastry",
+        "ru": "Выпечка",
+        "ka": "ცომეული"
+      }
+    },
+    {
+      "id": "fried_meat",
+      "i18n": {
+        "en": "Fried Meat",
+        "ru": "Жареное мясо",
+        "ka": "შემწვარი ხორცი"
+      }
+    },
+    {
+      "id": "salads",
+      "i18n": {
+        "en": "Salads",
+        "ru": "Салаты",
+        "ka": "სალათები"
+      }
+    },
+    {
+      "id": "seafood",
+      "i18n": {
+        "en": "Seafood",
+        "ru": "Морепродукты",
+        "ka": "ზღვის პროდუქტები"
+      }
+    },
+    {
+      "id": "assortment",
+      "i18n": {
+        "en": "Assortment Platter",
+        "ru": "Ассорти",
+        "ka": "ასორტი"
+      }
+    },
+    {
+      "id": "desserts",
+      "i18n": {
+        "en": "Fruits & Desserts",
+        "ru": "Десерты и фрукты",
+        "ka": "დესერტი და ხილი"
+      }
+    }
+  ],
+  "products": [
+    { "id": "brus_caprese", "category": "bruschettas", "price": 2.9, "weight": "45g", "popular": true, "description": "Fresh mozzarella, pesto sauce, cherry tomatoes on toasted baguette.", "i18n": { "ru": { "name": "Брускетта Капрезе" }, "en": { "name": "Caprese Bruschetta" }, "ka": { "name": "კაპრეზე ბრუსკეტა" } } },
+    { "id": "brus_pepperoni", "category": "bruschettas", "price": 2.9, "weight": "40g", "description": "Spicy pepperoni with cream cheese and microgreens.", "i18n": { "ru": { "name": "Брускетта с пепперони" }, "en": { "name": "Pepperoni Bruschetta" }, "ka": { "name": "ბრუსკეტა პეპერონით" } } },
+    { "id": "brus_rachian_caramel", "category": "bruschettas", "price": 3.5, "weight": "50g", "popular": true, "description": "Authentic Rachian ham paired with sweet caramel balsamic.", "i18n": { "ru": { "name": "Брускетта с рачинской ветчиной и карамелью" }, "en": { "name": "Bruschetta with Rachian ham and caramel" }, "ka": { "name": "ბრუსკეტა რაჭული ლორით და კარამელით" } } },
+    { "id": "brus_roastbeef", "category": "bruschettas", "price": 2.5, "weight": "50g", "description": "Tender roast beef with mustard sauce and pickles.", "i18n": { "ru": { "name": "Брускетта с ростбифом" }, "en": { "name": "Roast Beef Bruschetta" }, "ka": { "name": "ბრუსკეტა როსტბიფით" } } },
+    { "id": "brus_suluguni_cherry", "category": "bruschettas", "price": 1.9, "i18n": { "ru": { "name": "Брускетта с сулугуни и черри" }, "en": { "name": "Bruschetta with Suluguni and cherry" }, "ka": { "name": "ბრუსკეტა სულგუნით და ჩერით" } } },
+    { "id": "brus_cream_berries", "category": "bruschettas", "price": 2.5, "i18n": { "ru": { "name": "Брускетта с крем-сыром и ягодами" }, "en": { "name": "Bruschetta with cream cheese and berries" }, "ka": { "name": "ბრუსკეტა კრემ-ყველით და კენკრით" } } },
+    { "id": "brus_italian_salad", "category": "bruschettas", "price": 2.0, "i18n": { "ru": { "name": "Брускетта с итальянским томатным салатом" }, "en": { "name": "Bruschetta with Italian tomato salad" }, "ka": { "name": "ბრუსკეტა იტალიური პომიდვრის სალათით" } } },
+    { "id": "brus_hummus_mushroom", "category": "bruschettas", "price": 3.2, "i18n": { "ru": { "name": "Брускетта с муссом из хумуса и грибами" }, "en": { "name": "Bruschetta with hummus mousse and mushrooms" }, "ka": { "name": "ბრუსკეტა ჰუმუსით და სოკოთი" } } },
+    { "id": "brus_guacamole_egg", "category": "bruschettas", "price": 3.6, "i18n": { "ru": { "name": "Брускетта с гуакамоле и перепелиным яйцом" }, "en": { "name": "Bruschetta with guacamole and quail egg" }, "ka": { "name": "ბრუსკეტა გუაკამოლეთი და კვერცხით" } } },
+    { "id": "brus_avocado_mushroom", "category": "bruschettas", "price": 3.1, "i18n": { "ru": { "name": "Брускетта с муссом из авокадо и грибами" }, "en": { "name": "Bruschetta with avocado mousse and mushrooms" }, "ka": { "name": "ბრუსკეტა ავოკადოს მუსით და სოკოთი" } } },
+    { "id": "canape_shashkha", "category": "bruschettas", "price": 2.8, "i18n": { "ru": { "name": "Канапе с шашхой" }, "en": { "name": "Canape with shashkha" }, "ka": { "name": "კანაპე რაჭული ლორით" } } },
+    { "id": "canape_pepperoni", "category": "bruschettas", "price": 3.1, "i18n": { "ru": { "name": "Канапе с пепперони" }, "en": { "name": "Canape with pepperoni" }, "ka": { "name": "კანაპე პეპერონით" } } },
+    { "id": "mini_steak_baguette", "category": "bruschettas", "price": 3.8, "i18n": { "ru": { "name": "Мини-стейк из курицы на багете" }, "en": { "name": "Mini chicken steak on baguette" }, "ka": { "name": "ქათმის მინი სტეიკი ბაგეტზე" } } },
+    { "id": "canape_cheddar_gauda", "category": "bruschettas", "price": 3.9, "i18n": { "ru": { "name": "Канапе с чеддером и гаудой на огурце" }, "en": { "name": "Canape with cheddar and gouda on cucumber" }, "ka": { "name": "კანაპე ყველით" } } },
+    { "id": "canape_cheddar_gauda_shashkha", "category": "bruschettas", "price": 4.0, "i18n": { "ru": { "name": "Канапе с чеддером, гаудой и шашхой на огурце" }, "en": { "name": "Canape with cheddar, gouda and shashkha" }, "ka": { "name": "კანაპე ყველით და ლორით" } } },
+    { "id": "canape_chicken_honey", "category": "bruschettas", "price": 3.3, "i18n": { "ru": { "name": "Канапе с курицей, медовой карамелью и грецким орехом" }, "en": { "name": "Canape with chicken, honey and walnut" }, "ka": { "name": "კანაპე ქათმით და თაფლით" } } },
+    { "id": "canape_cheddar_cashew", "category": "bruschettas", "price": 3.6, "i18n": { "ru": { "name": "Канапе с чеддером и кешью" }, "en": { "name": "Canape with cheddar and cashew" }, "ka": { "name": "კანაპე ჩედერით და კეშიუთ" } } },
+    { "id": "canape_cheddar_topinambur", "category": "bruschettas", "price": 3.9, "i18n": { "ru": { "name": "Канапе с чеддером и топинамбуром" }, "en": { "name": "Canape with cheddar and topinambur" }, "ka": { "name": "კანაპე ჩედერით და მიწავაშლით" } } },
+    { "id": "canape_parmesan_kiwi", "category": "bruschettas", "price": 3.2, "i18n": { "ru": { "name": "Канапе с пармезаном и сушеным киви" }, "en": { "name": "Canape with parmesan and dried kiwi" }, "ka": { "name": "კანაპე პარმეზანით და კივით" } } },
+    { "id": "toast_shashkha", "category": "bruschettas", "price": 3.0, "i18n": { "ru": { "name": "Мини-тост с шашхой" }, "en": { "name": "Mini toast with shashkha" }, "ka": { "name": "მინი ტოსტი რაჭული ლორით" } } },
+    { "id": "toast_salami", "category": "bruschettas", "price": 3.2, "i18n": { "ru": { "name": "Мини-тост с салями" }, "en": { "name": "Mini toast with salami" }, "ka": { "name": "მინი ტოსტი სალამით" } } },
+    { "id": "toast_chicken", "category": "bruschettas", "price": 3.5, "i18n": { "ru": { "name": "Мини-тост с курицей" }, "en": { "name": "Mini toast with chicken" }, "ka": { "name": "მინი ტოსტი ქათმით" } } },
+    { "id": "burger_beef", "category": "bruschettas", "price": 7.5, "popular": true, "description": "Mini juicy beef patty, cheddar, and signature sauce.", "i18n": { "ru": { "name": "Мини-бургер с говядиной" }, "en": { "name": "Mini beef burger" }, "ka": { "name": "მინი ბურგერი საქონლის ხორცით" } } },
+    { "id": "burger_chicken", "category": "bruschettas", "price": 6.0, "i18n": { "ru": { "name": "Мини-бургер с курицей" }, "en": { "name": "Mini chicken burger" }, "ka": { "name": "მინი ბურგერი ქათმით" } } },
+    { "id": "burger_shashkha", "category": "bruschettas", "price": 5.0, "i18n": { "ru": { "name": "Мини-бургер с шашхой" }, "en": { "name": "Mini shashkha burger" }, "ka": { "name": "მინი ბურგერი რაჭული ლორით" } } },
+    { "id": "elardji_balls", "category": "bruschettas", "price": 3.4, "popular": true, "description": "Traditional Georgian cornmeal and cheese balls served with walnut bazhe sauce.", "i18n": { "ru": { "name": "Шарики из эларджи в бажи" }, "en": { "name": "Elardji balls in bazhe" }, "ka": { "name": "ელარჯის ბურთულები ბაჟეში" } } },
+    { "id": "croquette_potato_mozzarella", "category": "bruschettas", "price": 3.1, "i18n": { "ru": { "name": "Картофельные крокеты с моцареллой" }, "en": { "name": "Potato croquettes with mozzarella" }, "ka": { "name": "კარტოფილის კროკეტები მოცარელათი" } } },
+    { "id": "croquette_potato_shashkha", "category": "bruschettas", "price": 3.0, "i18n": { "ru": { "name": "Картофельные крокеты с шашхой" }, "en": { "name": "Potato croquettes with shashkha" }, "ka": { "name": "კარტოფილის კროკეტები რაჭული ლორით" } } },
+    { "id": "croquette_lobiani_shashkha", "category": "bruschettas", "price": 3.5, "i18n": { "ru": { "name": "Крокеты из лобиани с рачинской ветчиной" }, "en": { "name": "Lobiani croquettes with Rachian ham" }, "ka": { "name": "ლობიანის კროკეტები ლორით" } } },
+    { "id": "fries_100", "category": "bruschettas", "price": 5.0, "weight": "100g", "i18n": { "ru": { "name": "Картофель фри" }, "en": { "name": "French fries" }, "ka": { "name": "კარტოფილი ფრი" } } },
+    { "id": "mexican_100", "category": "bruschettas", "price": 4.0, "weight": "100g", "i18n": { "ru": { "name": "Мексиканский картофель" }, "en": { "name": "Mexican potatoes" }, "ka": { "name": "მექსიკური კარტოფილი" } } },
+    { "id": "mexican_skewer", "category": "bruschettas", "price": 3.0, "i18n": { "ru": { "name": "Мексиканский картофель на шпажке" }, "en": { "name": "Mexican potatoes on skewer" }, "ka": { "name": "მექსიკური კარტოფილი შამფურზე" } } },
+    { "id": "canape_caprese_pesto", "category": "bruschettas", "price": 3.2, "i18n": { "ru": { "name": "Канапе Капрезе с песто" }, "en": { "name": "Caprese canape with pesto" }, "ka": { "name": "კანაპე კაპრეზე პესტოთი" } } },
+    { "id": "canape_mush_mozz_bacon", "category": "bruschettas", "price": 3.6, "i18n": { "ru": { "name": "Канапе из шампиньонов с моцареллой и беконом" }, "en": { "name": "Mushroom canape with mozzarella and bacon" }, "ka": { "name": "სოკო მოცარელათი და ბეკონით" } } },
+    { "id": "fried_mush_guacamole", "category": "bruschettas", "price": 3.5, "i18n": { "ru": { "name": "Жареные шампиньоны с гуакамоле" }, "en": { "name": "Fried mushrooms with guacamole" }, "ka": { "name": "შემწვარი სოკო გუაკამოლეთი" } } },
+    { "id": "grilled_veg", "category": "bruschettas", "price": 3.2, "i18n": { "ru": { "name": "Овощи на гриле" }, "en": { "name": "Grilled vegetables" }, "ka": { "name": "ბოსტნეული გრილზე" } } },
+
+    { "id": "mini_khachapuri", "category": "pastry", "price": 2.8, "weight": "60g", "popular": true, "description": "Classic mini cheese bread.", "i18n": { "ru": { "name": "Мини-хачапури" }, "en": { "name": "Mini khachapuri" }, "ka": { "name": "მინი ხაჭაპური" } } },
+    { "id": "gurian_pie", "category": "pastry", "price": 2.8, "i18n": { "ru": { "name": "Гурийский пирожок" }, "en": { "name": "Gurian pie" }, "ka": { "name": "გურული ღვეზელი" } } },
+    { "id": "mini_lobiani", "category": "pastry", "price": 2.6, "i18n": { "ru": { "name": "Мини-лобиани" }, "en": { "name": "Mini lobiani" }, "ka": { "name": "მინი ლობიანი" } } },
+    { "id": "pie_beef", "category": "pastry", "price": 3.5, "i18n": { "ru": { "name": "Пирожок с говядиной" }, "en": { "name": "Beef pie" }, "ka": { "name": "ხორცის ღვეზელი" } } },
+    { "id": "pie_chicken", "category": "pastry", "price": 3.3, "i18n": { "ru": { "name": "Пирожок с курицей" }, "en": { "name": "Chicken pie" }, "ka": { "name": "ქათმის ღვეზელი" } } },
+    { "id": "quiche_lorraine", "category": "pastry", "price": 3.8, "i18n": { "ru": { "name": "Киш-лорен" }, "en": { "name": "Quiche Lorraine" }, "ka": { "name": "კიშ ლორენი" } } },
+    { "id": "pie_shashkha_cheese", "category": "pastry", "price": 3.2, "i18n": { "ru": { "name": "Пирожок с шашхой и сыром" }, "en": { "name": "Pie with shashkha and cheese" }, "ka": { "name": "ღვეზელი ლორით და ყველით" } } },
+    { "id": "hot_dog", "category": "pastry", "price": 3.5, "i18n": { "ru": { "name": "Хот-дог" }, "en": { "name": "Hot dog" }, "ka": { "name": "ჰოთ-დოგი" } } },
+    { "id": "pizza_margherita", "category": "pastry", "price": 3.3, "i18n": { "ru": { "name": "Мини-пицца Маргарита" }, "en": { "name": "Mini pizza Margherita" }, "ka": { "name": "მინი პიცა მარგარიტა" } } },
+    { "id": "pizza_prosciutto", "category": "pastry", "price": 3.5, "i18n": { "ru": { "name": "Мини-пицца с прошутто" }, "en": { "name": "Mini pizza with prosciutto" }, "ka": { "name": "მინი პიცა პროშუტოტი" } } },
+    { "id": "pizza_pepperoni", "category": "pastry", "price": 3.5, "i18n": { "ru": { "name": "Мини-пицца с пепперони" }, "en": { "name": "Mini pizza with pepperoni" }, "ka": { "name": "მინი პიცა პეპერონით" } } },
+    { "id": "pizza_combo", "category": "pastry", "price": 3.5, "i18n": { "ru": { "name": "Мини-пицца комбинированная" }, "en": { "name": "Mini pizza combo" }, "ka": { "name": "მინი პიცა კომბინირებული" } } },
+    { "id": "pizza_mushrooms", "category": "pastry", "price": 3.5, "i18n": { "ru": { "name": "Мини-пицца с грибами" }, "en": { "name": "Mini pizza with mushrooms" }, "ka": { "name": "მინი პიცა სოკოთი" } } },
+    { "id": "pizza_corn_shashkha", "category": "pastry", "price": 3.8, "i18n": { "ru": { "name": "Мини-пицца с кукурузой и шашхой" }, "en": { "name": "Mini pizza with corn and shashkha" }, "ka": { "name": "მინი პიცა სიმინდით და ლორით" } } },
+    { "id": "pie_tarragon", "category": "pastry", "price": 3.5, "i18n": { "ru": { "name": "Пирожок с тархуном" }, "en": { "name": "Pie with tarragon" }, "ka": { "name": "ტარხუნის ღვეზელი" } } },
+    { "id": "pie_mushrooms", "category": "pastry", "price": 3.3, "i18n": { "ru": { "name": "Пирожок с грибами" }, "en": { "name": "Pie with mushrooms" }, "ka": { "name": "სოკოს ღვეზელი" } } },
+    { "id": "pie_potato", "category": "pastry", "price": 2.6, "i18n": { "ru": { "name": "Пирожок с картофелем" }, "en": { "name": "Pie with potato" }, "ka": { "name": "კარტოფილის ღვეზელი" } } },
+    { "id": "pancake_beef", "category": "pastry", "price": 3.5, "i18n": { "ru": { "name": "Блин с говядиной" }, "en": { "name": "Pancake with beef" }, "ka": { "name": "ბლინი ხორცით" } } },
+    { "id": "pancake_suluguni_mush", "category": "pastry", "price": 3.2, "i18n": { "ru": { "name": "Блин с сулугуни и грибами" }, "en": { "name": "Pancake with suluguni and mushrooms" }, "ka": { "name": "ბლინი სულგუნით და სოკოთი" } } },
+
+    { "id": "croquette_chicken_skewer", "category": "fried_meat", "price": 3.6, "i18n": { "ru": { "name": "Крокет из куриного мяса на шпажке" }, "en": { "name": "Chicken croquette skewer" }, "ka": { "name": "ქათმის კროკეტი შამფურზე" } } },
+    { "id": "croquette_beef_cheddar", "category": "fried_meat", "price": 4.0, "i18n": { "ru": { "name": "Крокет из говядины с чеддером на шпажке" }, "en": { "name": "Beef croquette with cheddar" }, "ka": { "name": "ხორცის კროკეტი ჩედერით" } } },
+    { "id": "shashlik_chicken", "category": "fried_meat", "price": 4.0, "popular": true, "i18n": { "ru": { "name": "Куриный шашлык на шпажке" }, "en": { "name": "Chicken shashlik skewer" }, "ka": { "name": "ქათმის მწვადი შამფურზე" } } },
+    { "id": "shashlik_pork", "category": "fried_meat", "price": 4.0, "i18n": { "ru": { "name": "Свиной шашлык на шпажке" }, "en": { "name": "Pork shashlik skewer" }, "ka": { "name": "ღორის მწვადი შამფურზე" } } },
+    { "id": "kebab_beef", "category": "fried_meat", "price": 6.5, "i18n": { "ru": { "name": "Кебаб из говядины на шпажке" }, "en": { "name": "Beef kebab skewer" }, "ka": { "name": "ქაბაბი შამფურზე" } } },
+
+    { "id": "sal_beef_mush_tart", "category": "salads", "price": 4.2, "i18n": { "ru": { "name": "Салат из говядины и грибов в тарталетке" }, "en": { "name": "Beef and mushroom tartlet" }, "ka": { "name": "ხორცის და სოკოს სალათი ტარტალეტკაში" } } },
+    { "id": "sal_beef_tart", "category": "salads", "price": 4.2, "i18n": { "ru": { "name": "Салат из говядины в тарталетке" }, "en": { "name": "Beef salad in tartlet" }, "ka": { "name": "ხორცის სალათი ტარტალეტკაში" } } },
+    { "id": "sal_shashkha_gauda_tart", "category": "salads", "price": 3.5, "i18n": { "ru": { "name": "Салат из шашхи и гауды в тарталетке" }, "en": { "name": "Ham and gouda salad in tartlet" }, "ka": { "name": "ლორის და ყველი სალათი ტარტალეტკაში" } } },
+    { "id": "sal_chicken_mush_mchadi", "category": "salads", "price": 4.0, "i18n": { "ru": { "name": "Салат из жареной курицы и грибов на мчади" }, "en": { "name": "Chicken and mushroom on mchadi" }, "ka": { "name": "ქათმის და სოკოს სალათი მჭადზე" } } },
+    { "id": "sal_chicken_corn_mchadi", "category": "salads", "price": 4.0, "i18n": { "ru": { "name": "Салат из курицы с кукурузой на мчади" }, "en": { "name": "Chicken and corn on mchadi" }, "ka": { "name": "ქათმის და სიმინდის სალათი მჭადზე" } } },
+    { "id": "sal_mushroom_mchadi", "category": "salads", "price": 3.8, "i18n": { "ru": { "name": "Салат из шампиньонов на мчади" }, "en": { "name": "Mushroom salad on mchadi" }, "ka": { "name": "სოკოს სალათი მჭადზე" } } },
+    { "id": "sal_greek_cup", "category": "salads", "price": 3.6, "i18n": { "ru": { "name": "Греческий салат в стаканчике" }, "en": { "name": "Greek salad in cup" }, "ka": { "name": "ბერძნული სალათი ჭიქაში" } } },
+    { "id": "sal_bean_corn_mchadi", "category": "salads", "price": 3.6, "i18n": { "ru": { "name": "Салат из фасоли с кукурузой на мчади" }, "en": { "name": "Bean and corn on mchadi" }, "ka": { "name": "ლობიოს სალათი მჭადზე" } } },
+    { "id": "sal_eggplant_walnut", "category": "salads", "price": 2.9, "i18n": { "ru": { "name": "Баклажан с ореховой пастой на мчади" }, "en": { "name": "Eggplant with walnut on mchadi" }, "ka": { "name": "ბადრიჯანი ნიგვზით მჭადზე" } } },
+    { "id": "sal_spinach_walnut", "category": "salads", "price": 2.9, "i18n": { "ru": { "name": "Шпинат с ореховой пастой на мчади" }, "en": { "name": "Spinach with walnut on mchadi" }, "ka": { "name": "ისპანახი ნიგვზით მჭადზე" } } },
+    { "id": "sal_spinach_ball_mchadi", "category": "salads", "price": 2.9, "i18n": { "ru": { "name": "Шарик из шпината с кунжутом на мчади" }, "en": { "name": "Spinach ball with sesame on mchadi" }, "ka": { "name": "ისპანახის ბურთულა მჭადზე" } } },
+    { "id": "sal_beet_walnut", "category": "salads", "price": 2.9, "i18n": { "ru": { "name": "Свёкла с ореховой пастой на кольце из мчади" }, "en": { "name": "Beet with walnut on mchadi" }, "ka": { "name": "ჭარხალი ნიგვზით მჭადზე" } } },
+    { "id": "sal_pepper_walnut", "category": "salads", "price": 2.9, "i18n": { "ru": { "name": "Болгарский перец с ореховой пастой на мчади" }, "en": { "name": "Bell pepper with walnut on mchadi" }, "ka": { "name": "ბულგარული წიწაკა ნიგვზით მჭადზე" } } },
+    { "id": "sal_carrot_walnut", "category": "salads", "price": 2.9, "i18n": { "ru": { "name": "Салат из моркови с ореховой пастой на мчади" }, "en": { "name": "Carrot with walnut on mchadi" }, "ka": { "name": "სტაფილო ნიგვზით მჭადზე" } } },
+    { "id": "sal_caesar_cup", "category": "salads", "price": 4.0, "popular": true, "i18n": { "ru": { "name": "Салат Цезарь в стаканчике" }, "en": { "name": "Caesar salad in cup" }, "ka": { "name": "ცეზარი ჭიქაში" } } },
+    { "id": "sal_kuchmachi_mchadi", "category": "salads", "price": 3.4, "i18n": { "ru": { "name": "Салат из кучи-мачи на тарталетке из мчади" }, "en": { "name": "Kuchmachi on mchadi tartlet" }, "ka": { "name": "კუჭმაჭი მჭადზე" } } },
+
+    { "id": "sea_salmon_berry", "category": "seafood", "price": 4.0, "weight": "40g", "popular": true, "description": "Premium smoked salmon with seasonal berries and cream cheese.", "i18n": { "ru": { "name": "Брускетта с лососем и ягодами" }, "en": { "name": "Salmon and berry bruschetta" }, "ka": { "name": "ბრუსკეტა ორაგულით და კენკრით" } } },
+    { "id": "sea_tuna_tart", "category": "seafood", "price": 3.9, "i18n": { "ru": { "name": "Салат из тунца в тарталетке из мчади" }, "en": { "name": "Tuna salad in mchadi tartlet" }, "ka": { "name": "თუნას სალათი მჭადზე" } } },
+    { "id": "sea_red_caviar", "category": "seafood", "price": 7.0, "popular": true, "i18n": { "ru": { "name": "Красная икра на слоёном кольце" }, "en": { "name": "Red caviar on puff ring" }, "ka": { "name": "წითელი ხიზილალა" } } },
+    { "id": "sea_tiger_shrimp", "category": "seafood", "price": 6.6, "i18n": { "ru": { "name": "Тигровая креветка" }, "en": { "name": "Tiger shrimp" }, "ka": { "name": "ვეფხვისებრი კრევეტი" } } },
+    { "id": "sea_tiger_shrimp_sauce", "category": "seafood", "price": 6.6, "i18n": { "ru": { "name": "Тигровая креветка с соусом" }, "en": { "name": "Tiger shrimp with sauce" }, "ka": { "name": "ვეფხვისებრი კრევეტი სოუსით" } } },
+    { "id": "sea_mussel_sauce", "category": "seafood", "price": 6.4, "i18n": { "ru": { "name": "Зеландская мидия с соусом" }, "en": { "name": "New Zealand mussel with sauce" }, "ka": { "name": "მიდია სოუსით" } } },
+    { "id": "sea_octopus_orange", "category": "seafood", "price": 6.7, "i18n": { "ru": { "name": "Осьминог в апельсиновом соусе" }, "en": { "name": "Octopus in orange sauce" }, "ka": { "name": "რვაფეხა ფორთოხლის სოუსით" } } },
+    { "id": "sea_squid", "category": "seafood", "price": 4.9, "i18n": { "ru": { "name": "Кальмар" }, "en": { "name": "Squid" }, "ka": { "name": "კალმარი" } } },
+    { "id": "sea_ebi_furai", "category": "seafood", "price": 6.0, "i18n": { "ru": { "name": "Эби фурай" }, "en": { "name": "Ebi furai" }, "ka": { "name": "ები ფურაი" } } },
+
+    { "id": "as_geo_cheese", "category": "assortment", "price": 56.0, "weight": "1kg", "i18n": { "ru": { "name": "Ассорти грузинских сыров" }, "en": { "name": "Georgian cheese assortment" }, "ka": { "name": "ქართული ყველის ასორტი" } } },
+    { "id": "as_mixed_cheese", "category": "assortment", "price": 75.0, "weight": "1kg", "i18n": { "ru": { "name": "Ассорти грузинских и европейских сыров" }, "en": { "name": "Mixed cheese assortment" }, "ka": { "name": "ყველის ასორტი (მიქსი)" } } },
+    { "id": "as_euro_cheese", "category": "assortment", "price": 85.0, "weight": "1kg", "i18n": { "ru": { "name": "Ассорти европейских сыров" }, "en": { "name": "European cheese assortment" }, "ka": { "name": "ევროპული ყველის ასორტი" } } },
+    { "id": "as_meat", "category": "assortment", "price": 77.0, "weight": "1kg", "i18n": { "ru": { "name": "Мясное ассорти" }, "en": { "name": "Meat assortment" }, "ka": { "name": "ხორცის ასორტი" } } },
+    { "id": "as_veg", "category": "assortment", "price": 15.0, "weight": "1kg", "i18n": { "ru": { "name": "Овощное ассорти" }, "en": { "name": "Vegetable assortment" }, "ka": { "name": "ბოსტნეულის ასორტი" } } },
+
+    { "id": "des_fruit_skewer", "category": "desserts", "price": 2.9, "i18n": { "ru": { "name": "Фрукты на шпажке" }, "en": { "name": "Fruit skewer" }, "ka": { "name": "ხილის შამფური" } } },
+    { "id": "des_fruit_assort", "category": "desserts", "price": 35.0, "weight": "1kg", "i18n": { "ru": { "name": "Фруктовое ассорти" }, "en": { "name": "Fruit assortment" }, "ka": { "name": "ხილის ასორტი" } } },
+    { "id": "des_sweet_set", "category": "desserts", "price": 75.0, "weight": "1kg", "i18n": { "ru": { "name": "Сладкий набор" }, "en": { "name": "Sweet set (nuts, dried fruits)" }, "ka": { "name": "ტკბილეულის ნაკრები" } } },
+    { "id": "des_blue_velvet", "category": "desserts", "price": 2.2, "i18n": { "ru": { "name": "Торт Синий бархат" }, "en": { "name": "Blue Velvet cake" }, "ka": { "name": "ტორტი ლურჯი ხავერდი" } } },
+    { "id": "des_red_velvet", "category": "desserts", "price": 2.5, "i18n": { "ru": { "name": "Торт Красный бархат" }, "en": { "name": "Red Velvet cake" }, "ka": { "name": "ტორტი წითელი ხავერდი" } } },
+    { "id": "des_coconut_ring", "category": "desserts", "price": 2.3, "i18n": { "ru": { "name": "Кокосовое кольцо" }, "en": { "name": "Coconut ring" }, "ka": { "name": "ქოქოსის რგოლი" } } },
+    { "id": "des_berry_cake", "category": "desserts", "price": 4.8, "i18n": { "ru": { "name": "Торт с ягодами" }, "en": { "name": "Cake with berries" }, "ka": { "name": "კენკრის ტორტი" } } },
+    { "id": "des_cheesecake", "category": "desserts", "price": 4.2, "i18n": { "ru": { "name": "Холодный чизкейк" }, "en": { "name": "Cold cheesecake" }, "ka": { "name": "ჩიზქეიქი" } } },
+    { "id": "des_eclair_almond", "category": "desserts", "price": 4.1, "i18n": { "ru": { "name": "Эклер с миндалём" }, "en": { "name": "Almond eclair" }, "ka": { "name": "ნუშის ეკლერი" } } },
+    { "id": "des_shu_hazelnut", "category": "desserts", "price": 4.0, "i18n": { "ru": { "name": "Шу с шоколадом и фундуком" }, "en": { "name": "Choux with chocolate and hazelnut" }, "ka": { "name": "შუ თხილით" } } },
+    { "id": "des_brownie", "category": "desserts", "price": 4.2, "i18n": { "ru": { "name": "Брауни" }, "en": { "name": "Brownie" }, "ka": { "name": "ბრაუნი" } } },
+    { "id": "des_banana_choco", "category": "desserts", "price": 3.5, "i18n": { "ru": { "name": "Банан в шоколаде" }, "en": { "name": "Banana in chocolate" }, "ka": { "name": "ბანანი შოკოლადში" } } }
+  ],
+  "sets": [
+    {
+      "id": "vegan_set_10",
+      "type": "editable",
+      "default_persons": 10,
+      "variants": ["adult", "kids"],
+      "i18n": {
+        "ru": "Веганский набор от Шефа (10 чел)",
+        "en": "Chef's Vegan Set (10 pax)",
+        "ka": "ვეგანური ნაკრები (10 პერსონა)"
+      },
+      "base": [
+        { "productId": "brus_hummus_mushroom", "qty": 10 },
+        { "productId": "brus_avocado_mushroom", "qty": 10 },
+        { "productId": "sal_eggplant_walnut", "qty": 10 },
+        { "productId": "sal_spinach_walnut", "qty": 10 },
+        { "productId": "grilled_veg", "qty": 5 },
+        { "productId": "des_fruit_skewer", "qty": 10 }
+      ]
+    },
+    {
+      "id": "seafood_set_10",
+      "type": "editable",
+      "default_persons": 10,
+      "variants": ["adult"],
+      "i18n": {
+        "ru": "Рыбный набор (10 чел)",
+        "en": "Seafood Set (10 pax)",
+        "ka": "ზღვის პროდუქტების ნაკრები"
+      },
+      "base": [
+        { "productId": "sea_salmon_berry", "qty": 10 },
+        { "productId": "sea_tiger_shrimp", "qty": 20 },
+        { "productId": "sea_mussel_sauce", "qty": 10 },
+        { "productId": "sea_octopus_orange", "qty": 10 },
+        { "productId": "sea_tuna_tart", "qty": 10 }
+      ]
+    },
+    {
+      "id": "meat_set_10",
+      "type": "editable",
+      "default_persons": 10,
+      "variants": ["adult", "kids"],
+      "i18n": {
+        "ru": "Мясной набор (10 чел)",
+        "en": "Meat Lover Set (10 pax)",
+        "ka": "ხორცის ნაკრები"
+      },
+      "base": [
+        { "productId": "shashlik_pork", "qty": 10 },
+        { "productId": "shashlik_chicken", "qty": 10 },
+        { "productId": "kebab_beef", "qty": 5 },
+        { "productId": "burger_beef", "qty": 10 },
+        { "productId": "as_meat", "qty": 1 }
+      ]
+    },
+    {
+      "id": "birthday_set_10",
+      "type": "editable",
+      "default_persons": 10,
+      "variants": ["adult", "kids"],
+      "i18n": {
+        "ru": "День Рождения (10 чел)",
+        "en": "Birthday Set (10 pax)",
+        "ka": "დაბადების დღის ნაკრები"
+      },
+      "base": [
+        { "productId": "burger_beef", "qty": 10 },
+        { "productId": "fries_100", "qty": 10 },
+        { "productId": "mini_khachapuri", "qty": 10 },
+        { "productId": "pizza_pepperoni", "qty": 5 },
+        { "productId": "des_blue_velvet", "qty": 10 }
+      ]
+    },
+    {
+      "id": "wedding_set_20",
+      "type": "editable",
+      "default_persons": 20,
+      "variants": ["adult"],
+      "i18n": {
+        "ru": "Свадебный фуршет (20 чел)",
+        "en": "Wedding Buffet (20 pax)",
+        "ka": "საქორწილო ნაკრები"
+      },
+      "base": [
+        { "productId": "sea_red_caviar", "qty": 20 },
+        { "productId": "brus_rachian_caramel", "qty": 20 },
+        { "productId": "canape_parmesan_kiwi", "qty": 20 },
+        { "productId": "as_euro_cheese", "qty": 2 },
+        { "productId": "des_berry_cake", "qty": 20 },
+        { "productId": "sea_tiger_shrimp_sauce", "qty": 20 }
+      ]
+    },
+    {
+      "id": "corporate_set_20",
+      "type": "editable",
+      "default_persons": 20,
+      "variants": ["adult"],
+      "i18n": {
+        "ru": "Корпоративный (20 чел)",
+        "en": "Corporate Set (20 pax)",
+        "ka": "კორპორატიული"
+      },
+      "base": [
+        { "productId": "brus_roastbeef", "qty": 20 },
+        { "productId": "brus_italian_salad", "qty": 20 },
+        { "productId": "quiche_lorraine", "qty": 20 },
+        { "productId": "shashlik_chicken", "qty": 20 },
+        { "productId": "as_mixed_cheese", "qty": 2 }
+      ]
+    },
+    {
+      "id": "teambuilding_set_20",
+      "type": "editable",
+      "default_persons": 20,
+      "variants": ["adult"],
+      "i18n": {
+        "ru": "Тимбилдинг (20 чел)",
+        "en": "Teambuilding Set (20 pax)",
+        "ka": "თიმბილდინგი"
+      },
+      "base": [
+        { "productId": "burger_chicken", "qty": 20 },
+        { "productId": "mexican_100", "qty": 10 },
+        { "productId": "hot_dog", "qty": 20 },
+        { "productId": "elardji_balls", "qty": 20 },
+        { "productId": "des_fruit_assort", "qty": 2 }
+      ]
+    },
+    {
+      "id": "new_year_set_10",
+      "type": "editable",
+      "default_persons": 10,
+      "variants": ["adult", "kids"],
+      "i18n": {
+        "ru": "Новый Год (10 чел)",
+        "en": "New Year Set (10 pax)",
+        "ka": "საახალწლო ნაკრები"
+      },
+      "base": [
+        { "productId": "sea_red_caviar", "qty": 10 },
+        { "productId": "sal_beef_mush_tart", "qty": 10 },
+        { "productId": "brus_rachian_caramel", "qty": 10 },
+        { "productId": "des_sweet_set", "qty": 1 },
+        { "productId": "as_geo_cheese", "qty": 1 }
+      ]
+    },
+    {
+      "id": "sweet_set_10",
+      "type": "editable",
+      "default_persons": 10,
+      "variants": ["adult", "kids"],
+      "i18n": {
+        "ru": "Сладкий стол (10 чел)",
+        "en": "Dessert Table (10 pax)",
+        "ka": "ტკბილი სუფრა"
+      },
+      "base": [
+        { "productId": "des_red_velvet", "qty": 5 },
+        { "productId": "des_blue_velvet", "qty": 5 },
+        { "productId": "des_cheesecake", "qty": 10 },
+        { "productId": "des_eclair_almond", "qty": 10 },
+        { "productId": "des_shu_hazelnut", "qty": 10 },
+        { "productId": "des_banana_choco", "qty": 10 }
+      ]
+    }
+  ]
+}

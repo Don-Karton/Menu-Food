@@ -1,0 +1,23 @@
+{
+  "name": "gamarjobafood",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build:css": "node ./node_modules/tailwindcss/lib/cli.js -i ./src/styles.css -o ./assets/styles.css --minify",
+    "build:js": "node scripts/build.js",
+    "build": "npm run build:css && npm run build:js",
+    "serve": "npx http-server -p 5500"
+  },
+  "devDependencies": {
+    "@tailwindcss/forms": "^0.5.11",
+    "autoprefixer": "^10.4.0",
+    "esbuild": "^0.24.0",
+    "postcss": "^8.4.0",
+    "tailwindcss": "^3.4.0"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.3.0"
+  }
+}
