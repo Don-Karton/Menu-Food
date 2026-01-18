@@ -31,7 +31,7 @@ function parseMenuJsonWithComments(text) {
 const UI_STRINGS = {
   en: { home: 'Home', sets: 'Sets', about: 'About Us', search: 'Search menu...', popular: 'Popular Now', checkout: 'Checkout', cart: 'My Order', clearAll: 'Clear All', subtotal: 'Subtotal', delivery: 'Delivery Fee', discount: 'Discount', total: 'Total', reviewOrder: 'Review Order', eventDetails: 'Event Details', eventDate: 'Event Date', fullName: 'Full Name', guests: 'Guests', phone: 'Phone', createdInTbilisi: 'Created in Tbilisi', sendOrder: 'Send Order', proceedToPayment: 'Proceed to Payment', addToCart: 'Add to Order', saveSet: 'Save Set', editSet: 'Edit Set', persons: 'Number of Guests', portion: 'Portion Type', adult: 'Adult', child: 'Child', included: 'INCLUDED', frequently: 'Complete Your Meal', placeOrder: 'Place Order', submitOrder: 'Submit Order', personsShort: 'pax', language: 'Language' },
   ru: { home: 'Главная', sets: 'Сеты', about: 'О нас', search: 'Поиск по меню...', popular: 'Популярно сейчас', checkout: 'Оформить', cart: 'Мой заказ', clearAll: 'Очистить', subtotal: 'Промежуточный итог', delivery: 'Доставка', discount: 'Скидка', total: 'Итого', reviewOrder: 'Проверка заказа', eventDetails: 'Детали мероприятия', eventDate: 'Дата мероприятия', fullName: 'Имя', guests: 'Гостей', phone: 'Телефон', createdInTbilisi: 'Создано в Тбилиси', sendOrder: 'Отправить заказ', proceedToPayment: 'Перейти к оплате', addToCart: 'В корзину', saveSet: 'Сохранить сет', editSet: 'Редактировать сет', persons: 'Количество гостей', portion: 'Тип порции', adult: 'Взрослая', child: 'Детская', included: 'ВКЛЮЧЕНО', frequently: 'Дополнить заказ', placeOrder: 'Сформировать заказ', submitOrder: 'Отправить заказ', personsShort: 'перс.', language: 'Язык' },
-  ka: { home: 'მთავარი', sets: 'სეტები', about: 'ჩვენ შესახებ', search: 'მოძებნე მენიუში...', popular: 'პოპულარული', checkout: 'გადახდა', cart: 'ჩემი შეკვეთა', clearAll: 'გასუფთავება', subtotal: 'ერთობლივი', delivery: 'მიწოდება', discount: 'ფასდაკლება', total: 'ჯამი', reviewOrder: 'შეკვეთის დათვალიერება', eventDetails: '���ვენთის დეტალები', eventDate: 'თარიღი', fullName: 'სახელი', guests: 'პერსონები', phone: 'ტელეფო���ი', createdInTbilisi: 'დრო თბილისი', sendOrder: 'შეკვეთის გაგზავნა', proceedToPayment: 'გადახდაზე გადასვლა', addToCart: 'კალათში დამატება', saveSet: 'სეტის შენახვა', editSet: 'რედაქტირება', persons: 'პერსონების რაოდენობა', portion: 'პორციის ტიპი', adult: 'ზრდასრული', child: 'ბავშვი', included: 'შეყვანილი', frequently: 'დაამატე წყვილად', placeOrder: 'შეკვეთის ფორმირება', submitOrder: 'გაგზავნა', personsShort: 'პერს.', language: 'ენა' },
+  ka: { home: 'მთავარი', sets: 'სეტები', about: 'ჩვენ შესახებ', search: 'მოძებნე მენიუში...', popular: 'პოპულარული', checkout: 'გადახდა', cart: 'ჩემი შეკვეთა', clearAll: 'გასუფთავება', subtotal: 'ერთობლივი', delivery: 'მიწოდება', discount: 'ფასდაკლება', total: 'ჯამი', reviewOrder: 'შეკვეთის დათვალიერება', eventDetails: 'ღონისძიების დეტალები', eventDate: 'თარიღი', fullName: 'სახელი', guests: 'პერსონები', phone: 'ტელეფონი', createdInTbilisi: 'დრო თბილისი', sendOrder: 'შეკვეთის გაგზავნა', proceedToPayment: 'გადახდაზე გადასვლა', addToCart: 'კალათში დამატება', saveSet: 'სეტის შენახვა', editSet: 'რედაქტირება', persons: 'პერსონების რაოდენობა', portion: 'პორციის ტიპი', adult: 'ზრდასრული', child: 'ბავშვი', included: 'შეყვანილი', frequently: 'დაამატე წყვილად', placeOrder: 'შეკვეთის ფორმირება', submitOrder: 'გაგზავნა', personsShort: 'პერს.', language: 'ენა' },
 };
 
 // Global App Context
@@ -179,43 +179,64 @@ function LanguageSwitcher() {
 }
 
 function ProductCard({ product }) {
-  const { addProduct, lang } = useApp();
+  const { addProduct, cart, changeQty, removeItem, lang } = useApp();
   const name = (product.i18n?.[lang]?.name) || (product.i18n?.en?.name) || product.id;
   const price = Number(product.price || 0);
+  const inCart = cart.find(it => it.type === 'product' && it.productId === product.id);
+
   return (
-    <Link
-      to={`/product/${product.id}`}
-      className="bg-brand-surface rounded-2xl p-3 shadow-soft flex flex-col gap-3 hover:-translate-y-0.5 hover:shadow-glow transition-transform duration-150"
-    >
-      <div className="relative w-full aspect-square rounded-xl overflow-hidden bg-[#222]">
-        <div
-          className="w-full h-full bg-center bg-cover"
-          style={{ backgroundImage: `url('https://picsum.photos/seed/${product.id}/400/400')` }}
-        />
-      </div>
+    <div className="bg-brand-surface rounded-2xl p-3 shadow-soft flex flex-col gap-3 hover:-translate-y-0.5 hover:shadow-glow transition-transform duration-150">
+      <Link to={`/product/${product.id}`} className="block">
+        <div className="relative w-full aspect-square rounded-xl overflow-hidden bg-[#222]">
+          <div
+            className="w-full h-full bg-center bg-cover"
+            style={{ backgroundImage: `url('https://picsum.photos/seed/${product.id}/400/400')` }}
+          />
+        </div>
+      </Link>
       <div className="flex justify-between items-end gap-2">
         <div className="flex-1 min-w-0">
-          <h4 className="text-xs font-bold leading-tight mb-0.5 truncate">{name}</h4>
-          {product.weight && (
-            <p className="text-[10px] text-gray-400 truncate">{product.weight}</p>
-          )}
-          {product.description && (
-            <p className="text-[9px] text-gray-500 line-clamp-1">{product.description}</p>
-          )}
-          <span className="block text-sm font-black text-brand-yellow mt-1">{formatPrice(price)}</span>
+          <Link to={`/product/${product.id}`} className="block">
+            <h4 className="text-xs font-bold leading-tight mb-0.5 truncate">{name}</h4>
+            {product.weight && (
+              <p className="text-[10px] text-gray-400 truncate">{product.weight}</p>
+            )}
+            {product.description && (
+              <p className="text-[9px] text-gray-500 line-clamp-1">{product.description}</p>
+            )}
+            <span className="block text-sm font-black text-brand-yellow mt-1">{formatPrice(price)}</span>
+          </Link>
         </div>
-        <button
-          type="button"
-          onClick={(e) => {
-            e.preventDefault();
-            addProduct(product.id, 1);
-          }}
-          className="w-8 h-8 bg-brand-yellow rounded-lg flex items-center justify-center shadow-lg active:scale-90 transition-all hover:bg-white shrink-0"
-        >
-          <span className="material-symbols-outlined text-black font-black text-lg">add</span>
-        </button>
+        {inCart ? (
+          <div className="flex items-center gap-1 bg-white/5 rounded-lg p-0.5 border border-white/10 shrink-0">
+            <button
+              onClick={() => inCart.qty > 1 ? changeQty(inCart.id, -1) : removeItem(inCart.id)}
+              className="w-6 h-6 bg-brand-surface rounded flex items-center justify-center text-white active:scale-90 transition-all"
+            >
+              <span className="material-symbols-outlined text-sm font-black">remove</span>
+            </button>
+            <span className="text-xs font-bold min-w-[1rem] text-center">{inCart.qty}</span>
+            <button
+              onClick={() => changeQty(inCart.id, 1)}
+              className="w-6 h-6 bg-brand-yellow rounded flex items-center justify-center text-black active:scale-90 transition-all"
+            >
+              <span className="material-symbols-outlined text-sm font-black">add</span>
+            </button>
+          </div>
+        ) : (
+          <button
+            type="button"
+            onClick={(e) => {
+              e.preventDefault();
+              addProduct(product.id, 1);
+            }}
+            className="w-8 h-8 bg-brand-yellow rounded-lg flex items-center justify-center shadow-lg active:scale-90 transition-all hover:bg-white shrink-0"
+          >
+            <span className="material-symbols-outlined text-black font-black text-lg">add</span>
+          </button>
+        )}
       </div>
-    </Link>
+    </div>
   );
 }
 
@@ -270,18 +291,20 @@ function CategoryBar({ categories, current, onSelect }) {
 }
 
 function Home() {
-  const { catalog, lang, setLang, t, totals, getNameOfCategory, addProduct } = useApp();
+  const { catalog, lang, setLang, t, totals, getNameOfCategory, addProduct, cart, changeQty, removeItem } = useApp();
   const [query, setQuery] = useState('');
   const [activeSidebar, setActiveSidebar] = useState('top');
+  const mainRef = React.useRef(null);
 
   const categoryIconMap = useMemo(
     () => ({
-      burgers: 'lunch_dining',
-      pizza: 'local_pizza',
-      combos: 'fastfood',
-      drinks: 'local_drink',
-      sauces: 'soup_kitchen',
-      dessert: 'icecream',
+      bruschettas: 'restaurant_menu',
+      pastry: 'bakery_dining',
+      fried_meat: 'kebab_dining',
+      salads: 'eco',
+      seafood: 'set_meal',
+      assortment: 'layers',
+      desserts: 'icecream',
       default: 'restaurant',
     }),
     []
@@ -323,15 +346,11 @@ function Home() {
       <header className="flex-none bg-[#121212]/95 backdrop-blur-sm z-30 px-4 pt-12 pb-5 flex flex-col gap-5 shadow-sm border-b border-[#222]">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-brand-yellow rounded-lg rotate-3 flex items-center justify-center text-brand-dark font-black text-xl shadow-[0_0_15px_rgba(255,199,44,0.3)]">
-              M
+            <div className="w-10 h-10 bg-brand-orange rounded-lg rotate-3 flex items-center justify-center text-white font-black text-xl shadow-[0_0_15px_rgba(255,165,0,0.3)]">
+              GF
             </div>
             <div>
-              <h1 className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Picking up at</h1>
-              <div className="flex items-center gap-1 cursor-pointer">
-                <span className="text-base font-bold text-white leading-none">Vake, Tbilisi</span>
-                <span className="material-symbols-outlined text-brand-yellow text-sm">expand_more</span>
-              </div>
+              <h1 className="text-xl font-black text-white italic tracking-tight uppercase">GamarjobaFood</h1>
             </div>
           </div>
           <LanguageSwitcher />
@@ -356,7 +375,10 @@ function Home() {
               className={`sidebar-item w-full py-4 flex flex-col items-center gap-1 group transition-colors relative hover:bg-[#222] ${
                 activeSidebar === item.id ? 'active bg-[#2C2C2C] border-r-[3px] border-brand-yellow' : ''
               }`}
-              onClick={() => setActiveSidebar(item.id)}
+              onClick={() => {
+                setActiveSidebar(item.id);
+                if (mainRef.current) mainRef.current.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
             >
               <span
                 className={`material-symbols-outlined icon text-3xl transition-colors ${
@@ -376,7 +398,7 @@ function Home() {
           ))}
         </aside>
 
-        <main className="flex-1 overflow-y-auto hide-scrollbar bg-[#121212] p-4 flex flex-col gap-6">
+        <main ref={mainRef} className="flex-1 overflow-y-auto hide-scrollbar bg-[#121212] p-4 flex flex-col gap-6">
           <section className="w-full">
             <div className="flex overflow-x-auto gap-3 pb-2 hide-scrollbar snap-x snap-mandatory">
               {promoSets.map(s => (
@@ -404,8 +426,10 @@ function Home() {
           </section>
 
           <section>
-            <div className="flex items-center justify-between mb-3 sticky top-0 bg-[#121212]/95 backdrop-blur py-2 z-10">
-              <h3 className="text-xl font-black text-white italic tracking-tight">Popular Now 🔥</h3>
+            <div className="flex items-center justify-between mb-3 relative bg-[#121212]/95 backdrop-blur py-2 z-10">
+              <h3 className="text-xl font-black text-white italic tracking-tight uppercase">
+                {activeSidebar === 'top' ? t.popular : getNameOfCategory(activeSidebar)}
+              </h3>
             </div>
             <div className="flex flex-col gap-4">
               {filteredProducts.map((p) => (
@@ -414,18 +438,20 @@ function Home() {
                   className="bg-brand-surface rounded-2xl p-3 shadow-soft flex flex-col gap-3 group"
                 >
                   <div className="relative w-full aspect-[16/9] rounded-xl overflow-hidden bg-[#222]">
-                    <div className="absolute top-2 left-2 z-10">
+                    <div className="absolute top-2 left-2 z-10 pointer-events-none">
                       <div className="bg-brand-yellow text-black text-[10px] font-black px-2 py-1 rounded uppercase shadow-sm flex items-center gap-1">
                         <span className="material-symbols-outlined text-[12px]">star</span>
                         Top Rated
                       </div>
                     </div>
-                    <div
-                      className="w-full h-full bg-center bg-cover transition-transform duration-500 group-hover:scale-110"
-                      style={{
-                        backgroundImage: `url('https://picsum.photos/seed/${p.id}/640/360')`,
-                      }}
-                    />
+                    <Link to={`/product/${p.id}`} className="block w-full h-full">
+                      <div
+                        className="w-full h-full bg-center bg-cover transition-transform duration-500 group-hover:scale-110"
+                        style={{
+                          backgroundImage: `url('https://picsum.photos/seed/${p.id}/640/360')`,
+                        }}
+                      />
+                    </Link>
                     <button className="absolute top-2 right-2 w-8 h-8 bg-black/40 backdrop-blur rounded-full flex items-center justify-center text-white hover:bg-brand-orange hover:text-white transition-colors">
                       <span className="material-symbols-outlined text-[18px]">favorite</span>
                     </button>
@@ -450,12 +476,39 @@ function Home() {
                         <span className="text-2xl font-black text-brand-yellow">{formatPrice(Number(p.price || 0))}</span>
                       </div>
                     </div>
-                    <button
-                      className="w-12 h-12 bg-brand-yellow rounded-xl flex items-center justify-center shadow-lg active:scale-90 transition-all hover:bg-white hover:scale-105 shrink-0"
-                      onClick={() => addProduct(p.id, 1)}
-                    >
-                      <span className="material-symbols-outlined text-black font-black text-2xl">add</span>
-                    </button>
+                    {(() => {
+                      const inCart = cart.find(it => it.type === 'product' && it.productId === p.id);
+                      if (inCart) {
+                        return (
+                          <div className="flex items-center gap-3 bg-white/5 rounded-xl p-1 border border-white/10 shrink-0">
+                            <button
+                              onClick={() => {
+                                if (inCart.qty > 1) changeQty(inCart.id, -1);
+                                else removeItem(inCart.id);
+                              }}
+                              className="w-10 h-10 bg-brand-surface rounded-lg flex items-center justify-center text-white active:scale-90 transition-all hover:bg-white/10"
+                            >
+                              <span className="material-symbols-outlined font-black text-xl">remove</span>
+                            </button>
+                            <span className="text-lg font-bold min-w-[1.5rem] text-center">{inCart.qty}</span>
+                            <button
+                              onClick={() => changeQty(inCart.id, 1)}
+                              className="w-10 h-10 bg-brand-yellow rounded-lg flex items-center justify-center text-black active:scale-90 transition-all hover:brightness-110"
+                            >
+                              <span className="material-symbols-outlined font-black text-xl">add</span>
+                            </button>
+                          </div>
+                        );
+                      }
+                      return (
+                        <button
+                          className="w-12 h-12 bg-brand-yellow rounded-xl flex items-center justify-center shadow-lg active:scale-90 transition-all hover:bg-white hover:scale-105 shrink-0"
+                          onClick={() => addProduct(p.id, 1)}
+                        >
+                          <span className="material-symbols-outlined text-black font-black text-2xl">add</span>
+                        </button>
+                      );
+                    })()}
                   </div>
                 </article>
               ))}
@@ -836,32 +889,29 @@ function ReviewOrder() {
   const submitOrder = async () => {
     console.log('Submitting order payload:', payload);
 
-    // 1. Google Sheets Integration
+    let sheetSuccess = false;
+    // 1. Google Sheets Integration (Handles background Email/Invoice)
     if (SHEETS_WEBHOOK_URL) {
       try {
-        console.log('Sending to Google Sheets...');
         await fetch(SHEETS_WEBHOOK_URL, {
           method: 'POST',
-          mode: 'no-cors', // Common for simple Google Apps Script hooks
+          mode: 'no-cors',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload),
         });
+        sheetSuccess = true;
       } catch (e) {
-        console.warn('Google Sheets integration error:', e);
+        console.warn('Submission error:', e);
       }
-    } else {
-      console.log('Google Sheets URL not configured, skipping.');
     }
 
-    // 2. Open WhatsApp
+    // 2. Open WhatsApp (Secondary channel)
     window.open(whatsappLink(), '_blank');
 
-    // 3. Fallback/Direct Email
-    setTimeout(() => {
-      if (confirm('Would you also like to send this order via Email?')) {
-        window.location.href = mailtoLink();
-      }
-    }, 1000);
+    // 3. Feedback to user
+    alert(sheetSuccess || SHEETS_WEBHOOK_URL
+      ? 'Order submitted successfully! Our manager will contact you soon.'
+      : 'Order sent to WhatsApp. Please complete the sending process there.');
   };
 
   return (
