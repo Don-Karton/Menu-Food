@@ -9,8 +9,17 @@ const STORAGE_KEYS = {
   cart: 'catering.cart.v1',
   customer: 'catering.customer.v1',
 };
-const formatPrice = (n) => `${n.toFixed(2)} ₾`;
+const formatPrice = (n) => (
+  <span className="inline-flex items-baseline gap-0.5">
+    <span>{n.toFixed(2)}</span>
+    <span className="font-system">₾</span>
+  </span>
+);
+const formatPriceString = (n) => `${n.toFixed(2)} ₾`;
 const tbilisiNow = () => new Date().toLocaleString('en-GB', { timeZone: 'Asia/Tbilisi' });
+
+const getProductImg = (p, size = 400) => p?.image || `https://picsum.photos/seed/${p?.id}/${size}/${size}`;
+const getSetImg = (s, w = 640, h = 360) => s?.image || `https://picsum.photos/seed/${s?.id}/${w}/${h}`;
 
 /**
  * INTEGRATION SETTINGS
@@ -190,7 +199,7 @@ function ProductCard({ product }) {
         <div className="relative w-full aspect-square rounded-xl overflow-hidden bg-[#222]">
           <div
             className="w-full h-full bg-center bg-cover"
-            style={{ backgroundImage: `url('https://picsum.photos/seed/${product.id}/400/400')` }}
+            style={{ backgroundImage: `url('${getProductImg(product)}')` }}
           />
         </div>
       </Link>
@@ -255,7 +264,7 @@ function SetCard({ setDef }) {
             Chef's Special
           </div>
         </div>
-        <div className="w-full h-full bg-center bg-cover" style={{ backgroundImage: `url('https://picsum.photos/seed/${setDef.id}/640/360')` }}></div>
+        <div className="w-full h-full bg-center bg-cover" style={{ backgroundImage: `url('${getSetImg(setDef)}')` }}></div>
       </div>
       <div className="flex justify-between items-end">
         <div className="flex-1 pr-2">
@@ -293,7 +302,7 @@ function CategoryBar({ categories, current, onSelect }) {
 function Home() {
   const { catalog, lang, setLang, t, totals, getNameOfCategory, addProduct, cart, changeQty, removeItem } = useApp();
   const [query, setQuery] = useState('');
-  const [activeSidebar, setActiveSidebar] = useState('top');
+  const [activeSidebar, setActiveSidebar] = useState('all');
   const mainRef = React.useRef(null);
 
   const categoryIconMap = useMemo(
@@ -312,7 +321,8 @@ function Home() {
 
   const sidebarItems = useMemo(() => {
     const items = [
-      { id: 'top', icon: 'local_fire_department', label: 'Top' },
+      { id: 'all', icon: 'grid_view', label: t.home || 'All' },
+      { id: 'top', icon: 'local_fire_department', label: t.popular || 'Top' },
     ];
     for (const cat of catalog.categories || []) {
       const icon = categoryIconMap[cat.id] || categoryIconMap.default;
@@ -328,7 +338,9 @@ function Home() {
   const filteredProducts = useMemo(() => {
     const q = query.trim().toLowerCase();
     let list = catalog.products;
-    if (activeSidebar === 'top') {
+    if (activeSidebar === 'all') {
+      // no filter
+    } else if (activeSidebar === 'top') {
       list = list.filter((p) => p.popular);
     } else {
       list = list.filter((p) => p.category === activeSidebar);
@@ -399,6 +411,7 @@ function Home() {
         </aside>
 
         <main ref={mainRef} className="flex-1 overflow-y-auto hide-scrollbar bg-[#121212] p-4 flex flex-col gap-6">
+          {(activeSidebar === 'all' || activeSidebar === 'top') && (
           <section className="w-full">
             <div className="flex overflow-x-auto gap-3 pb-2 hide-scrollbar snap-x snap-mandatory">
               {promoSets.map(s => (
@@ -406,7 +419,7 @@ function Home() {
                   <div
                     className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
                     style={{
-                      backgroundImage: `url('https://picsum.photos/seed/${s.id}/520/280')`,
+                      backgroundImage: `url('${getSetImg(s, 520, 280)}')`,
                       filter: 'brightness(0.6)',
                     }}
                   />
@@ -424,93 +437,17 @@ function Home() {
               ))}
             </div>
           </section>
+          )}
 
           <section>
             <div className="flex items-center justify-between mb-3 relative bg-[#121212]/95 backdrop-blur py-2 z-10">
               <h3 className="text-xl font-black text-white italic tracking-tight uppercase">
-                {activeSidebar === 'top' ? t.popular : getNameOfCategory(activeSidebar)}
+                {activeSidebar === 'all' ? t.home : activeSidebar === 'top' ? t.popular : getNameOfCategory(activeSidebar)}
               </h3>
             </div>
-            <div className="flex flex-col gap-4">
+            <div className="grid grid-cols-2 gap-3">
               {filteredProducts.map((p) => (
-                <article
-                  key={p.id}
-                  className="bg-brand-surface rounded-2xl p-3 shadow-soft flex flex-col gap-3 group"
-                >
-                  <div className="relative w-full aspect-[16/9] rounded-xl overflow-hidden bg-[#222]">
-                    <div className="absolute top-2 left-2 z-10 pointer-events-none">
-                      <div className="bg-brand-yellow text-black text-[10px] font-black px-2 py-1 rounded uppercase shadow-sm flex items-center gap-1">
-                        <span className="material-symbols-outlined text-[12px]">star</span>
-                        Top Rated
-                      </div>
-                    </div>
-                    <Link to={`/product/${p.id}`} className="block w-full h-full">
-                      <div
-                        className="w-full h-full bg-center bg-cover transition-transform duration-500 group-hover:scale-110"
-                        style={{
-                          backgroundImage: `url('https://picsum.photos/seed/${p.id}/640/360')`,
-                        }}
-                      />
-                    </Link>
-                    <button className="absolute top-2 right-2 w-8 h-8 bg-black/40 backdrop-blur rounded-full flex items-center justify-center text-white hover:bg-brand-orange hover:text-white transition-colors">
-                      <span className="material-symbols-outlined text-[18px]">favorite</span>
-                    </button>
-                  </div>
-                  <div className="flex justify-between items-end">
-                    <div className="flex-1 pr-2">
-                      <Link to={`/product/${p.id}`} className="block">
-                        <h4 className="text-lg font-bold text-white leading-tight mb-1">
-                          {(p.i18n?.[lang]?.name) || (p.i18n?.en?.name) || p.id}
-                        </h4>
-                        <div className="flex items-center gap-2 mb-2">
-                          {p.weight && <span className="text-[10px] bg-white/5 px-1.5 py-0.5 rounded text-gray-400">{p.weight}</span>}
-                          {p.popular && <span className="text-[10px] bg-brand-yellow/10 text-brand-yellow px-1.5 py-0.5 rounded font-bold uppercase tracking-tight">Popular</span>}
-                        </div>
-                        {p.description && (
-                          <p className="text-xs text-gray-400 mb-2 line-clamp-2 leading-relaxed">
-                            {p.description}
-                          </p>
-                        )}
-                      </Link>
-                      <div className="flex items-center gap-2">
-                        <span className="text-2xl font-black text-brand-yellow">{formatPrice(Number(p.price || 0))}</span>
-                      </div>
-                    </div>
-                    {(() => {
-                      const inCart = cart.find(it => it.type === 'product' && it.productId === p.id);
-                      if (inCart) {
-                        return (
-                          <div className="flex items-center gap-3 bg-white/5 rounded-xl p-1 border border-white/10 shrink-0">
-                            <button
-                              onClick={() => {
-                                if (inCart.qty > 1) changeQty(inCart.id, -1);
-                                else removeItem(inCart.id);
-                              }}
-                              className="w-10 h-10 bg-brand-surface rounded-lg flex items-center justify-center text-white active:scale-90 transition-all hover:bg-white/10"
-                            >
-                              <span className="material-symbols-outlined font-black text-xl">remove</span>
-                            </button>
-                            <span className="text-lg font-bold min-w-[1.5rem] text-center">{inCart.qty}</span>
-                            <button
-                              onClick={() => changeQty(inCart.id, 1)}
-                              className="w-10 h-10 bg-brand-yellow rounded-lg flex items-center justify-center text-black active:scale-90 transition-all hover:brightness-110"
-                            >
-                              <span className="material-symbols-outlined font-black text-xl">add</span>
-                            </button>
-                          </div>
-                        );
-                      }
-                      return (
-                        <button
-                          className="w-12 h-12 bg-brand-yellow rounded-xl flex items-center justify-center shadow-lg active:scale-90 transition-all hover:bg-white hover:scale-105 shrink-0"
-                          onClick={() => addProduct(p.id, 1)}
-                        >
-                          <span className="material-symbols-outlined text-black font-black text-2xl">add</span>
-                        </button>
-                      );
-                    })()}
-                  </div>
-                </article>
+                <ProductCard key={p.id} product={p} />
               ))}
             </div>
           </section>
@@ -608,7 +545,7 @@ function useProductParamsSafe() {
 }
 
 function SetEditor() {
-  const { t, catalog, priceOfProduct, getNameOfProduct, lang, addSetToCart, cart } = useApp();
+  const { t, catalog, priceOfProduct, getNameOfProduct, productsById, lang, addSetToCart, cart } = useApp();
   const navigate = useNavigate();
   const { setId, editId } = useSetParamsSafe();
   const setDef = catalog.sets.find(s => s.id === setId);
@@ -658,7 +595,7 @@ function SetEditor() {
       </nav>
 
       <header className="relative w-full h-[240px] overflow-hidden">
-        <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url('https://picsum.photos/seed/${setDef.id}/800/480')` }}></div>
+        <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url('${getSetImg(setDef, 800, 480)}')` }}></div>
         <div className="absolute inset-0 bg-gradient-to-t from-[#121212] via-[#121212]/40 to-transparent"></div>
         <div className="absolute bottom-0 left-0 w-full px-6 pb-6">
           <h1 className="text-2xl font-black italic uppercase leading-none mb-2">{title}</h1>
@@ -698,13 +635,15 @@ function SetEditor() {
       <main className="px-4 py-6 flex flex-col gap-4">
         {perPerson.map(row => (
           <div key={row.productId} className="group relative bg-brand-surface rounded-2xl p-3 flex gap-4 overflow-hidden border border-white/5 shadow-soft">
-            <div className="w-20 h-20 shrink-0 rounded-xl bg-gray-800 overflow-hidden relative shadow-inner">
-              <div className="absolute inset-0 bg-cover bg-center" style={{backgroundImage: `url('https://picsum.photos/seed/${row.productId}/160/160')`}}></div>
-            </div>
+            <Link to={`/product/${row.productId}`} className="w-20 h-20 shrink-0 rounded-xl bg-gray-800 overflow-hidden relative shadow-inner block hover:opacity-80 transition-opacity">
+              <div className="absolute inset-0 bg-cover bg-center" style={{backgroundImage: `url('${getProductImg(productsById.get(row.productId), 160)}')`}}></div>
+            </Link>
             <div className="flex flex-col flex-1 py-1">
               <div className="flex justify-between items-start mb-1">
-                <h3 className="font-bold text-white text-base leading-tight">{getNameOfProduct(row.productId)}</h3>
-                <span className="text-brand-yellow font-black text-xs bg-brand-yellow/10 px-1.5 py-0.5 rounded border border-brand-yellow/20">{t.included}</span>
+                <Link to={`/product/${row.productId}`} className="hover:text-brand-yellow transition-colors flex-1 min-w-0 pr-2">
+                  <h3 className="font-bold text-white text-base leading-tight truncate">{getNameOfProduct(row.productId)}</h3>
+                </Link>
+                <span className="text-brand-yellow font-black text-xs bg-brand-yellow/10 px-1.5 py-0.5 rounded border border-brand-yellow/20 shrink-0">{t.included}</span>
               </div>
               <div className="flex items-center justify-between mt-2">
                 <div className="text-[11px] text-gray-400">{row.qtyPerPerson} / person</div>
@@ -734,7 +673,7 @@ function SetEditor() {
 }
 
 function ShoppingCart() {
-  const { t, cart, removeItem, changeQty, totals } = useApp();
+  const { t, cart, removeItem, changeQty, totals, productsById, catalog } = useApp();
   const navigate = useNavigate();
 
   return (
@@ -751,7 +690,11 @@ function ShoppingCart() {
       <main className="flex flex-col">
         {cart.map(item => (
           <div key={item.id} className="p-5 border-b border-white/5 flex gap-4 bg-brand-charcoal/30 relative">
-            <div className="w-24 h-24 rounded-xl bg-[#222] bg-cover bg-center shrink-0 shadow-sm" style={{ backgroundImage: `url('https://picsum.photos/seed/${item.type==='product'?item.productId:item.setConfig.setId}/256/256')` }}></div>
+            <div className="w-24 h-24 rounded-xl bg-[#222] bg-cover bg-center shrink-0 shadow-sm" style={{
+              backgroundImage: `url('${item.type==='product'
+                ? getProductImg(productsById.get(item.productId), 256)
+                : getSetImg(catalog.sets.find(s => s.id === item.setConfig.setId), 256, 256)}')`
+            }}></div>
             <div className="flex-1 flex flex-col justify-between py-1">
               <div>
                 <div className="flex justify-between items-start gap-2">
@@ -870,9 +813,9 @@ function ReviewOrder() {
           details += `\n${items}`;
         }
 
-        return `${idx+1}. ${i.title}\n(${details.trim()})\nPrice: ${formatPrice(i.type==='product' ? i.price*i.qty : i.price)}`;
+        return `${idx+1}. ${i.title}\n(${details.trim()})\nPrice: ${formatPriceString(i.type==='product' ? i.price*i.qty : i.price)}`;
       }).join('\n\n') +
-      `\n\nTotal: ${formatPrice(totals.total)}\nName: ${name}\nDate: ${date}\nGuests: ${guests}\nPhone: ${phone}`;
+      `\n\nTotal: ${formatPriceString(totals.total)}\nName: ${name}\nDate: ${date}\nGuests: ${guests}\nPhone: ${phone}`;
   };
 
   const whatsappLink = () => {
@@ -1049,7 +992,7 @@ function ReviewOrder() {
               <div className="flex items-baseline gap-1">
                 <span className="text-[10px] font-bold text-gray-400 uppercase mr-1">{t.total}</span>
                 <span className="text-4xl font-black text-brand-yellow tracking-tight leading-none">{totals.total.toFixed(2)}</span>
-                <span className="text-2xl font-bold text-brand-yellow">₾</span>
+                <span className="text-2xl font-bold text-brand-yellow font-system">₾</span>
               </div>
             </div>
           </div>
@@ -1069,10 +1012,14 @@ function ReviewOrder() {
 }
 
 function ProductPage() {
-  const { catalog, productsById, lang, addProduct, t } = useApp();
+  const { catalog, productsById, lang, addProduct, cart, changeQty, removeItem, t } = useApp();
   const navigate = useNavigate();
   const { productId } = useProductParamsSafe();
   const product = productsById.get(productId);
+
+  const inCart = useMemo(() =>
+    product ? cart.find(it => it.type === 'product' && it.productId === product.id) : null,
+  [cart, product]);
 
   const recommendations = useMemo(() => {
     if (!product) return [];
@@ -1110,7 +1057,7 @@ function ProductPage() {
         <div className="w-full aspect-square rounded-2xl overflow-hidden bg-[#222]">
           <div
             className="w-full h-full bg-center bg-cover"
-            style={{ backgroundImage: `url('https://picsum.photos/seed/${product.id}/800/800')` }}
+            style={{ backgroundImage: `url('${getProductImg(product, 800)}')` }}
           />
         </div>
         <div className="flex items-baseline justify-between gap-2">
@@ -1137,7 +1084,7 @@ function ProductPage() {
             {recommendations.map(rp => (
               <div key={rp.id} className="flex-shrink-0 w-40 bg-white/5 rounded-2xl border border-white/5 overflow-hidden">
                 <div className="h-24 relative overflow-hidden">
-                  <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url('https://picsum.photos/seed/${rp.id}/300/200')` }}></div>
+                  <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url('${getProductImg(rp, 300)}')` }}></div>
                   <button
                     onClick={() => addProduct(rp.id, 1)}
                     className="absolute top-2 right-2 w-7 h-7 rounded-full bg-brand-yellow flex items-center justify-center shadow-lg active:scale-90 transition-transform"
@@ -1155,13 +1102,34 @@ function ProductPage() {
         </div>
       </main>
       <div className="fixed bottom-0 left-0 right-0 max-w-md mx-auto px-4 pb-6 pt-3 bg-gradient-to-t from-black via-[#121212] to-transparent">
-        <button
-          onClick={() => addProduct(product.id, 1)}
-          className="w-full bg-brand-yellow text-black font-black py-3 rounded-xl flex items-center justify-center gap-2 shadow-glow active:scale-[0.98] transition-all"
-        >
-          <span className="material-symbols-outlined">add_shopping_cart</span>
-          <span>Add to order</span>
-        </button>
+        {inCart ? (
+          <div className="w-full bg-brand-surface rounded-2xl p-2 border border-white/10 flex items-center justify-between shadow-glow">
+            <button
+              onClick={() => inCart.qty > 1 ? changeQty(inCart.id, -1) : removeItem(inCart.id)}
+              className="w-12 h-12 bg-[#222] rounded-xl flex items-center justify-center text-white active:scale-90 transition-all hover:bg-white/10"
+            >
+              <span className="material-symbols-outlined font-black">remove</span>
+            </button>
+            <div className="flex flex-col items-center">
+              <span className="text-[10px] text-gray-500 uppercase font-black tracking-widest mb-0.5">{t.cart}</span>
+              <span className="text-2xl font-black text-white leading-none">{inCart.qty}</span>
+            </div>
+            <button
+              onClick={() => changeQty(inCart.id, 1)}
+              className="w-12 h-12 bg-brand-yellow rounded-xl flex items-center justify-center text-black active:scale-90 transition-all hover:bg-white"
+            >
+              <span className="material-symbols-outlined font-black">add</span>
+            </button>
+          </div>
+        ) : (
+          <button
+            onClick={() => addProduct(product.id, 1)}
+            className="w-full bg-brand-yellow text-black font-black py-4 rounded-xl flex items-center justify-center gap-2 shadow-glow active:scale-[0.98] transition-all hover:bg-white"
+          >
+            <span className="material-symbols-outlined">add_shopping_cart</span>
+            <span className="uppercase tracking-wide">{t.addToCart}</span>
+          </button>
+        )}
       </div>
     </div>
   );
