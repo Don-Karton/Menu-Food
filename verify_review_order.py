@@ -30,7 +30,7 @@ async def verify():
 
         # Go to review
         await page.click('text=Checkout')
-        await page.wait_for_selector('text=Review Order')
+        await page.wait_for_selector('text=Event Details')
 
         # Fill info
         await page.fill('input[type="date"]', '2023-12-31')

@@ -65,6 +65,11 @@ function AppProvider({ children }) {
   const [cart, setCart] = useLocalStorage(STORAGE_KEYS.cart, []);
   const currency = catalog?.meta?.currency || 'GEL';
 
+  // UI state moved to provider for global layout
+  const [query, setQuery] = useState('');
+  const [activeSidebar, setActiveSidebar] = useState('all');
+  const mainRef = React.useRef(null);
+
   const productsById = useMemo(() => {
     const m = new Map();
     for (const p of catalog.products) m.set(p.id, p);
@@ -165,6 +170,7 @@ function AppProvider({ children }) {
     addProduct, addSetToCart, removeItem, changeQty, clearCart,
     priceOfProduct, getNameOfProduct, getNameOfCategory,
     cart, totals, currency,
+    query, setQuery, activeSidebar, setActiveSidebar, mainRef,
   };
 
   return <AppCtx.Provider value={value}>{children}</AppCtx.Provider>;
@@ -300,40 +306,7 @@ function CategoryBar({ categories, current, onSelect }) {
 }
 
 function Home() {
-  const { catalog, lang, setLang, t, totals, getNameOfCategory, addProduct, cart, changeQty, removeItem } = useApp();
-  const [query, setQuery] = useState('');
-  const [activeSidebar, setActiveSidebar] = useState('all');
-  const mainRef = React.useRef(null);
-
-  const categoryIconMap = useMemo(
-    () => ({
-      bruschettas: 'restaurant_menu',
-      pastry: 'bakery_dining',
-      fried_meat: 'kebab_dining',
-      salads: 'eco',
-      seafood: 'set_meal',
-      assortment: 'layers',
-      desserts: 'icecream',
-      default: 'restaurant',
-    }),
-    []
-  );
-
-  const sidebarItems = useMemo(() => {
-    const items = [
-      { id: 'all', icon: 'grid_view', label: t.home || 'All' },
-      { id: 'top', icon: 'local_fire_department', label: t.popular || 'Top' },
-    ];
-    for (const cat of catalog.categories || []) {
-      const icon = categoryIconMap[cat.id] || categoryIconMap.default;
-      items.push({
-        id: cat.id,
-        icon,
-        label: getNameOfCategory(cat.id),
-      });
-    }
-    return items;
-  }, [catalog.categories, categoryIconMap, getNameOfCategory]);
+  const { catalog, lang, t, getNameOfCategory, query, activeSidebar } = useApp();
 
   const filteredProducts = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -354,135 +327,47 @@ function Home() {
   const promoSets = useMemo(() => (catalog.sets || []).slice(0, 3), [catalog.sets]);
 
   return (
-    <div className="mx-auto max-w-md w-full relative h-[100dvh] flex flex-col bg-[#121212] overflow-hidden">
-      <header className="flex-none bg-[#121212]/95 backdrop-blur-sm z-30 px-4 pt-12 pb-5 flex flex-col gap-5 shadow-sm border-b border-[#222]">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-brand-orange rounded-lg rotate-3 flex items-center justify-center text-white font-black text-xl shadow-[0_0_15px_rgba(255,165,0,0.3)]">
-              GF
-            </div>
-            <div>
-              <h1 className="text-xl font-black text-white italic tracking-tight uppercase">GamarjobaFood</h1>
-            </div>
+    <div className="p-4 flex flex-col gap-6">
+      {(activeSidebar === 'all' || activeSidebar === 'top') && (
+        <section className="w-full">
+          <div className="flex overflow-x-auto gap-3 pb-2 hide-scrollbar snap-x snap-mandatory">
+            {promoSets.map(s => (
+              <Link to={`/set/${s.id}`} key={s.id} className="snap-center shrink-0 relative w-[240px] h-[130px] bg-brand-charcoal rounded-xl overflow-hidden shadow-soft group">
+                <div
+                  className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
+                  style={{
+                    backgroundImage: `url('${getSetImg(s, 480, 260)}')`,
+                    filter: 'brightness(0.6)',
+                  }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/30 to-transparent"></div>
+                <div className="absolute inset-0 p-4 flex flex-col justify-center items-start">
+                  <span className="bg-brand-orange text-white text-[9px] font-black uppercase px-2 py-0.5 rounded mb-1">
+                    {t.sets}
+                  </span>
+                  <h2 className="text-xl font-black text-white leading-none uppercase italic mb-1 truncate w-full">
+                    {s.i18n?.[lang] || s.i18n?.en || s.id}
+                  </h2>
+                  <p className="text-[10px] text-gray-300 font-medium">{s.default_persons} {t.personsShort}</p>
+                </div>
+              </Link>
+            ))}
           </div>
-          <LanguageSwitcher />
-        </div>
-        <div className="relative w-full h-12 bg-brand-surface rounded-xl flex items-center px-4 gap-3 border border-[#333] focus-within:border-brand-yellow transition-colors">
-          <span className="material-symbols-outlined text-gray-400">search</span>
-          <input
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            className="bg-transparent border-none outline-none text-white placeholder-gray-500 text-sm flex-1 p-0 focus:ring-0"
-            placeholder="Search menu..."
-            type="text"
-          />
-        </div>
-      </header>
+        </section>
+      )}
 
-      <div className="flex-1 flex overflow-hidden relative pb-[100px]">
-        <aside className="w-[84px] bg-[#181818] overflow-y-auto hide-scrollbar flex flex-col py-4 gap-2 border-r border-[#222] flex-none">
-          {sidebarItems.map((item) => (
-            <button
-              key={item.id}
-              className={`sidebar-item w-full py-4 flex flex-col items-center gap-1 group transition-colors relative hover:bg-[#222] ${
-                activeSidebar === item.id ? 'active bg-[#2C2C2C] border-r-[3px] border-brand-yellow' : ''
-              }`}
-              onClick={() => {
-                setActiveSidebar(item.id);
-                if (mainRef.current) mainRef.current.scrollTo({ top: 0, behavior: 'smooth' });
-              }}
-            >
-              <span
-                className={`material-symbols-outlined icon text-3xl transition-colors ${
-                  activeSidebar === item.id ? 'text-brand-yellow' : 'text-gray-400 group-hover:text-white'
-                }`}
-              >
-                {item.icon}
-              </span>
-              <span
-                className={`label text-[10px] uppercase tracking-wide transition-colors ${
-                  activeSidebar === item.id ? 'text-white font-bold' : 'text-gray-400 font-medium group-hover:text-white'
-                }`}
-              >
-                {item.label}
-              </span>
-            </button>
+      <section>
+        <div className="flex items-center justify-between mb-3">
+          <h3 className="text-xl font-black text-white italic tracking-tight uppercase">
+            {activeSidebar === 'all' ? t.home : activeSidebar === 'top' ? t.popular : getNameOfCategory(activeSidebar)}
+          </h3>
+        </div>
+        <div className="grid grid-cols-2 gap-3">
+          {filteredProducts.map((p) => (
+            <ProductCard key={p.id} product={p} />
           ))}
-        </aside>
-
-        <main ref={mainRef} className="flex-1 overflow-y-auto hide-scrollbar bg-[#121212] p-4 flex flex-col gap-6">
-          {(activeSidebar === 'all' || activeSidebar === 'top') && (
-          <section className="w-full">
-            <div className="flex overflow-x-auto gap-3 pb-2 hide-scrollbar snap-x snap-mandatory">
-              {promoSets.map(s => (
-                <Link to={`/set/${s.id}`} key={s.id} className="snap-center shrink-0 relative w-[260px] h-[140px] bg-brand-charcoal rounded-xl overflow-hidden shadow-soft group">
-                  <div
-                    className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
-                    style={{
-                      backgroundImage: `url('${getSetImg(s, 520, 280)}')`,
-                      filter: 'brightness(0.6)',
-                    }}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/30 to-transparent"></div>
-                  <div className="absolute inset-0 p-4 flex flex-col justify-center items-start">
-                    <span className="bg-brand-orange text-white text-[9px] font-black uppercase px-2 py-0.5 rounded mb-1">
-                      {t.sets}
-                    </span>
-                    <h2 className="text-xl font-black text-white leading-none uppercase italic mb-1 truncate w-full">
-                      {s.i18n?.[lang] || s.i18n?.en || s.id}
-                    </h2>
-                    <p className="text-[10px] text-gray-300 font-medium mb-2">{s.default_persons} {t.personsShort}</p>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </section>
-          )}
-
-          <section>
-            <div className="flex items-center justify-between mb-3 relative bg-[#121212]/95 backdrop-blur py-2 z-10">
-              <h3 className="text-xl font-black text-white italic tracking-tight uppercase">
-                {activeSidebar === 'all' ? t.home : activeSidebar === 'top' ? t.popular : getNameOfCategory(activeSidebar)}
-              </h3>
-            </div>
-            <div className="grid grid-cols-2 gap-3">
-              {filteredProducts.map((p) => (
-                <ProductCard key={p.id} product={p} />
-              ))}
-            </div>
-          </section>
-        </main>
-      </div>
-
-      <nav className="fixed bottom-0 left-0 right-0 z-50 bg-[#1E1E1E] border-t border-[#333] pb-3 pt-2 px-8 max-w-md mx-auto">
-        <div className="flex items-center justify-between">
-          <Link className="flex flex-col items-center justify-center w-14 gap-1.5 text-brand-yellow group -mt-3" to="/">
-            <span className="material-symbols-outlined text-[26px] filled group-hover:scale-110 transition-transform">home</span>
-            <span className="text-[10px] font-bold">Home</span>
-          </Link>
-          <Link className="flex flex-col items-center justify-center w-14 gap-1.5 text-gray-400 hover:text-white transition-colors group -mt-3" to="/sets">
-            <span className="material-symbols-outlined text-[26px] group-hover:scale-110 transition-transform">view_list</span>
-            <span className="text-[10px] font-medium">Sets</span>
-          </Link>
-          <div className="relative -top-9 mx-2">
-            <Link
-              to="/cart"
-              className="w-[100px] h-[100px] bg-brand-yellow rounded-full shadow-[0_4px_30px_rgba(255,199,44,0.6)] flex flex-col items-center justify-center border-4 border-[#1E1E1E] active:scale-95 transition-transform group relative z-10"
-            >
-              <span className="material-symbols-outlined text-black text-[44px] group-hover:scale-110 transition-transform mb-0.5">
-                shopping_cart
-              </span>
-              <span className="absolute -bottom-5 bg-[#121212] border border-[#333] text-white px-4 py-1.5 rounded-full text-[15px] font-black shadow-md whitespace-nowrap min-w-[94px] text-center">
-                {formatPrice(totals.total)}
-              </span>
-            </Link>
-          </div>
-          <Link className="flex flex-col items-center justify-center w-14 gap-1.5 text-gray-400 hover:text-white transition-colors group -mt-3" to="/about">
-            <span className="material-symbols-outlined text-[26px] group-hover:scale-110 transition-transform">info</span>
-            <span className="text-[10px] font-medium">About Us</span>
-          </Link>
         </div>
-      </nav>
+      </section>
     </div>
   );
 }
@@ -490,23 +375,23 @@ function Home() {
 function BottomNav() {
   const { totals, t } = useApp();
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-[#1E1E1E] border-t border-[#333] pb-3 pt-2 px-8 max-w-md mx-auto">
+    <nav className="flex-none z-50 bg-[#1E1E1E] border-t border-[#333] pb-6 pt-3 px-8">
       <div className="flex items-center justify-between">
-        <Link className="flex flex-col items-center justify-center w-14 gap-1.5 text-brand-yellow group -mt-3" to="/">
+        <Link className="flex flex-col items-center justify-center w-14 gap-1.5 text-brand-yellow group -mt-4" to="/">
           <span className="material-symbols-outlined text-[26px] filled group-hover:scale-110 transition-transform">home</span>
           <span className="text-[10px] font-bold">{t.home}</span>
         </Link>
-        <Link className="flex flex-col items-center justify-center w-14 gap-1.5 text-gray-400 hover:text-white transition-colors group -mt-3" to="/sets">
+        <Link className="flex flex-col items-center justify-center w-14 gap-1.5 text-gray-400 hover:text-white transition-colors group -mt-4" to="/sets">
           <span className="material-symbols-outlined text-[26px] group-hover:scale-110 transition-transform">view_list</span>
           <span className="text-[10px] font-medium">{t.sets}</span>
         </Link>
-        <div className="relative -top-9 mx-2">
-          <Link to="/cart" className="w-[100px] h-[100px] bg-brand-yellow rounded-full shadow-[0_4px_30px_rgba(255,199,44,0.6)] flex flex-col items-center justify-center border-4 border-[#1E1E1E] active:scale-95 transition-transform group relative z-10">
-            <span className="material-symbols-outlined text-black text-[44px] group-hover:scale-110 transition-transform mb-0.5">shopping_cart</span>
-            <span className="absolute -bottom-5 bg-[#121212] border border-[#333] text-white px-4 py-1.5 rounded-full text-[15px] font-black shadow-md whitespace-nowrap min-w-[94px] text-center">{formatPrice(totals.total)}</span>
+        <div className="relative -top-10 mx-2">
+          <Link to="/cart" className="w-[90px] h-[90px] bg-brand-yellow rounded-full shadow-[0_4px_30px_rgba(255,199,44,0.6)] flex flex-col items-center justify-center border-4 border-[#1E1E1E] active:scale-95 transition-transform group relative z-10">
+            <span className="material-symbols-outlined text-black text-[40px] group-hover:scale-110 transition-transform mb-0.5">shopping_cart</span>
+            <span className="absolute -bottom-4 bg-[#121212] border border-[#333] text-white px-3 py-1 rounded-full text-[13px] font-black shadow-md whitespace-nowrap min-w-[80px] text-center">{formatPrice(totals.total)}</span>
           </Link>
         </div>
-        <Link className="flex flex-col items-center justify-center w-14 gap-1.5 text-gray-400 hover:text-white transition-colors group -mt-3" to="/about">
+        <Link className="flex flex-col items-center justify-center w-14 gap-1.5 text-gray-400 hover:text-white transition-colors group -mt-4" to="/about">
           <span className="material-symbols-outlined text-[26px] group-hover:scale-110 transition-transform">info</span>
           <span className="text-[10px] font-medium">{t.about}</span>
         </Link>
@@ -518,12 +403,11 @@ function BottomNav() {
 function SetsList() {
   const { catalog } = useApp();
   return (
-    <div className="mx-auto max-w-md w-full min-h-screen pb-28 bg-[#121212] p-4">
-      <h1 className="text-2xl font-black mb-4">Chef's Specials</h1>
+    <div className="p-4 flex flex-col gap-4">
+      <h1 className="text-2xl font-black mb-2">Chef's Specials</h1>
       <div className="grid grid-cols-1 gap-4">
         {catalog.sets.map(s => <SetCard key={s.id} setDef={s} />)}
       </div>
-      <BottomNav />
     </div>
   );
 }
@@ -575,9 +459,7 @@ function SetEditor() {
   }, [perPerson, priceOfProduct, variant]);
   const totalPrice = useMemo(() => pricePerPerson * persons, [pricePerPerson, persons]);
 
-  if (!setDef) return (
-    <div className="mx-auto max-w-md w-full min-h-screen bg-[#121212] p-6">Not found</div>
-  );
+  if (!setDef) return <div className="p-6">Not found</div>;
 
   const title = setDef.i18n?.[lang] || setDef.i18n?.en || setDef.id;
 
@@ -587,14 +469,8 @@ function SetEditor() {
   };
 
   return (
-    <div className="mx-auto max-w-md w-full relative min-h-screen bg-[#121212] pb-32 overflow-x-hidden">
-      <nav className="fixed top-0 left-0 right-0 z-50 px-4 py-3 flex items-center justify-between max-w-md mx-auto bg-gradient-to-b from-black/80 to-transparent pt-4">
-        <button onClick={() => navigate(-1)} className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center active:scale-95 transition-transform hover:bg-white/20 border border-white/5">
-          <span className="material-symbols-outlined text-white">arrow_back</span>
-        </button>
-      </nav>
-
-      <header className="relative w-full h-[240px] overflow-hidden">
+    <div className="pb-32">
+      <header className="relative w-full h-[200px] overflow-hidden">
         <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url('${getSetImg(setDef, 800, 480)}')` }}></div>
         <div className="absolute inset-0 bg-gradient-to-t from-[#121212] via-[#121212]/40 to-transparent"></div>
         <div className="absolute bottom-0 left-0 w-full px-6 pb-6">
@@ -661,10 +537,10 @@ function SetEditor() {
           </div>
         ))}
       </main>
-      <div className="fixed bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black via-[#121212] to-transparent z-50 flex justify-center max-w-md mx-auto">
-        <button onClick={saveAndBack} className="w-full bg-brand-yellow text-black font-black uppercase text-sm py-4 rounded-full shadow-[0_0_25px_rgba(255,199,44,0.3)] flex items-center justify-center gap-2 active:scale-[0.98] transition-all hover:bg-white hover:shadow-[0_0_30px_rgba(255,255,255,0.2)]">
+      <div className="absolute bottom-6 left-0 right-0 p-4 z-40 flex justify-center">
+        <button onClick={saveAndBack} className="w-full bg-brand-yellow text-black font-black uppercase text-sm py-4 rounded-full shadow-glow flex items-center justify-center gap-2 active:scale-95 transition-all">
           <span>{t.saveSet}</span>
-          <span className="text-black/30 mx-1">•</span>
+          <span>•</span>
           <span>{formatPrice(totalPrice)}</span>
         </button>
       </div>
@@ -677,17 +553,12 @@ function ShoppingCart() {
   const navigate = useNavigate();
 
   return (
-    <div className="mx-auto max-w-md w-full relative min-h-screen pb-32 bg-[#121212] overflow-hidden">
-      <header className="sticky top-0 z-40 bg-[#121212]/95 backdrop-blur-md px-6 pt-12 pb-4 flex items-center justify-between border-b border-white/5 shadow-soft">
-        <div className="flex items-center gap-3">
-          <button onClick={() => navigate(-1)} className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-white/10 transition-colors -ml-2">
-            <span className="material-symbols-outlined text-gray-300">arrow_back</span>
-          </button>
-          <h1 className="text-2xl font-black text-white italic uppercase tracking-tight">{t.cart} <span className="text-brand-yellow not-italic text-lg font-bold ml-1">({cart.length})</span></h1>
-        </div>
-        <button onClick={() => { if (confirm('Clear cart?')) { localStorage.setItem(STORAGE_KEYS.cart, JSON.stringify([])); location.reload(); } }} className="text-xs font-bold text-gray-400 hover:text-brand-orange uppercase tracking-wider transition-colors">{t.clearAll}</button>
+    <div className="flex flex-col">
+      <header className="bg-[#1a1a1a] px-5 py-4 flex items-center justify-between border-b border-white/5">
+        <h1 className="text-xl font-black italic uppercase">{t.cart} <span className="text-brand-yellow">({cart.length})</span></h1>
+        <button onClick={() => { if (confirm('Clear?')) { localStorage.setItem(STORAGE_KEYS.cart, JSON.stringify([])); location.reload(); } }} className="text-[10px] font-black text-gray-500 uppercase">{t.clearAll}</button>
       </header>
-      <main className="flex flex-col">
+      <div className="flex flex-col">
         {cart.map(item => (
           <div key={item.id} className="p-5 border-b border-white/5 flex gap-4 bg-brand-charcoal/30 relative">
             <div className="w-24 h-24 rounded-xl bg-[#222] bg-cover bg-center shrink-0 shadow-sm" style={{
@@ -760,8 +631,7 @@ function ShoppingCart() {
             </div>
           </Link>
         </section>
-      </main>
-      <BottomNav />
+      </div>
     </div>
   );
 }
@@ -791,83 +661,34 @@ function ReviewOrder() {
   }, [date, name, guests, phone]);
 
   const payload = useMemo(() => ({
-    created_at_tbilisi: createdAt,
-    currency: 'GEL',
-    items: cart,
-    totals,
-    customer: { name, date, guests, phone },
+    created_at_tbilisi: createdAt, currency: 'GEL', items: cart, totals, customer: { name, date, guests, phone },
   }), [cart, totals, name, date, guests, phone]);
 
   const getOrderSummary = () => {
     return `Order (Tbilisi time: ${createdAt})\n` +
       cart.map((i, idx) => {
-        let details = i.type === 'product'
-          ? `${i.qty}x`
-          : `${i.setConfig?.persons} pax, ${i.setConfig?.variant || 'adult'}`;
-
+        let details = i.type === 'product' ? `${i.qty}x` : `${i.setConfig?.persons} pax, ${i.setConfig?.variant || 'adult'}`;
         if (i.type === 'set' && i.setConfig?.perPerson) {
-          const items = i.setConfig.perPerson
-            .filter(p => p.qtyPerPerson > 0)
-            .map(p => `  - ${getNameOfProduct(p.productId)}: ${p.qtyPerPerson}/pers`)
-            .join('\n');
-          details += `\n${items}`;
+          details += `\n` + i.setConfig.perPerson.filter(p => p.qtyPerPerson > 0).map(p => `  - ${getNameOfProduct(p.productId)}: ${p.qtyPerPerson}/pers`).join('\n');
         }
-
         return `${idx+1}. ${i.title}\n(${details.trim()})\nPrice: ${formatPriceString(i.type==='product' ? i.price*i.qty : i.price)}`;
       }).join('\n\n') +
       `\n\nTotal: ${formatPriceString(totals.total)}\nName: ${name}\nDate: ${date}\nGuests: ${guests}\nPhone: ${phone}`;
   };
 
-  const whatsappLink = () => {
-    const url = `https://wa.me/?text=${encodeURIComponent(getOrderSummary())}`;
-    return url;
-  };
-
-  const mailtoLink = () => {
-    const subject = `New Order from ${name} - ${date}`;
-    const body = getOrderSummary();
-    return `mailto:dondigidonkarton@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-  };
+  const whatsappLink = () => `https://wa.me/?text=${encodeURIComponent(getOrderSummary())}`;
 
   const submitOrder = async () => {
-    console.log('Submitting order payload:', payload);
-
-    let sheetSuccess = false;
-    // 1. Google Sheets Integration (Handles background Email/Invoice)
     if (SHEETS_WEBHOOK_URL) {
-      try {
-        await fetch(SHEETS_WEBHOOK_URL, {
-          method: 'POST',
-          mode: 'no-cors',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload),
-        });
-        sheetSuccess = true;
-      } catch (e) {
-        console.warn('Submission error:', e);
-      }
+      try { await fetch(SHEETS_WEBHOOK_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }); } catch (e) {}
     }
-
-    // 2. Open WhatsApp (Secondary channel)
     window.open(whatsappLink(), '_blank');
-
-    // 3. Feedback to user
-    alert(sheetSuccess || SHEETS_WEBHOOK_URL
-      ? 'Order submitted successfully! Our manager will contact you soon.'
-      : 'Order sent to WhatsApp. Please complete the sending process there.');
+    alert('Order processing via WhatsApp...');
   };
 
   return (
-    <div className="mx-auto max-w-md w-full relative min-h-screen bg-[#121212] flex flex-col shadow-2xl overflow-hidden">
-      <header className="sticky top-0 z-50 bg-[#121212]/95 backdrop-blur-md border-b border-[#2C2C2C] px-6 pt-12 pb-4 flex items-center justify-between">
-        <button onClick={() => navigate(-1)} className="w-10 h-10 -ml-2 rounded-full flex items-center justify-center active:bg-brand-surface transition-colors text-gray-400 hover:text-white">
-          <span className="material-symbols-outlined">arrow_back</span>
-        </button>
-        <h1 className="text-lg font-black uppercase tracking-wide">{t.reviewOrder}</h1>
-        <div className="w-10"></div>
-      </header>
-
-      <main className="flex-1 overflow-y-auto hide-scrollbar pb-72 p-6 space-y-8">
+    <div className="relative">
+      <div className="flex flex-col p-6 space-y-8 pb-72">
         <section className="bg-brand-charcoal w-full rounded-sm relative overflow-hidden shadow-soft">
           <div className="h-1.5 w-full bg-brand-yellow"></div>
           <div className="p-5">
@@ -979,10 +800,10 @@ function ReviewOrder() {
             </div>
           </div>
         </section>
-      </main>
+      </div>
 
-      <div className="fixed bottom-0 left-0 right-0 z-50 bg-[#121212] border-t border-[#2C2C2C] px-6 pt-5 pb-8 max-w-md mx-auto shadow-[0_-15px_40px_rgba(0,0,0,0.9)]">
-        <div className="flex flex-col gap-4">
+      <div className="absolute bottom-0 left-0 right-0 z-40 bg-[#121212] border-t border-[#2C2C2C] px-6 pt-4 pb-12">
+        <div className="flex flex-col gap-3">
           <div className="flex items-end justify-between">
             <div className="flex flex-col">
               <div className="flex items-center gap-1.5 text-gray-500 mb-1">
@@ -1017,48 +838,22 @@ function ProductPage() {
   const { productId } = useProductParamsSafe();
   const product = productsById.get(productId);
 
-  const inCart = useMemo(() =>
-    product ? cart.find(it => it.type === 'product' && it.productId === product.id) : null,
-  [cart, product]);
+  const inCart = useMemo(() => product ? cart.find(it => it.type === 'product' && it.productId === product.id) : null, [cart, product]);
+  const recommendations = useMemo(() => product ? (catalog.products || []).filter(p => p.id !== product.id && (p.category === product.category || p.popular)).slice(0, 3) : [], [catalog.products, product]);
 
-  const recommendations = useMemo(() => {
-    if (!product) return [];
-    return (catalog.products || [])
-      .filter(p => p.id !== product.id && (p.category === product.category || p.popular))
-      .slice(0, 3);
-  }, [catalog.products, product]);
-
-  if (!product) {
-    return (
-      <div className="mx-auto max-w-md w-full min-h-screen bg-[#121212] p-6 flex flex-col gap-4">
-        <button onClick={() => navigate(-1)} className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center mb-2">
-          <span className="material-symbols-outlined text-white">arrow_back</span>
-        </button>
-        <p className="text-gray-400">Product not found</p>
-      </div>
-    );
-  }
+  if (!product) return <div className="p-6">Product not found</div>;
 
   const name = (product.i18n?.[lang]?.name) || (product.i18n?.en?.name) || product.id;
   const price = Number(product.price || 0);
 
   return (
-    <div className="mx-auto max-w-md w-full min-h-screen bg-[#121212] flex flex-col pb-24">
-      <header className="px-4 pt-8 pb-4 flex items-center gap-3">
-        <button
-          onClick={() => navigate(-1)}
-          className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center"
-        >
-          <span className="material-symbols-outlined text-white">arrow_back</span>
-        </button>
-        <h1 className="text-lg font-black truncate">{name}</h1>
-      </header>
-      <main className="flex-1 overflow-y-auto hide-scrollbar px-4 pb-6 flex flex-col gap-4">
-        <div className="w-full aspect-square rounded-2xl overflow-hidden bg-[#222]">
-          <div
-            className="w-full h-full bg-center bg-cover"
-            style={{ backgroundImage: `url('${getProductImg(product, 800)}')` }}
-          />
+    <div className="flex flex-col pb-24">
+      <div className="px-4 py-4 flex flex-col gap-4">
+        <div className="w-full aspect-square rounded-2xl overflow-hidden bg-[#222] relative">
+          <button onClick={() => navigate(-1)} className="absolute top-4 left-4 z-10 w-10 h-10 rounded-full bg-black/50 backdrop-blur-md flex items-center justify-center">
+            <span className="material-symbols-outlined text-white">close</span>
+          </button>
+          <div className="w-full h-full bg-center bg-cover" style={{ backgroundImage: `url('${getProductImg(product, 600)}')` }} />
         </div>
         <div className="flex items-baseline justify-between gap-2">
           <div className="flex flex-col">
@@ -1100,8 +895,8 @@ function ProductPage() {
             ))}
           </div>
         </div>
-      </main>
-      <div className="fixed bottom-0 left-0 right-0 max-w-md mx-auto px-4 pb-6 pt-3 bg-gradient-to-t from-black via-[#121212] to-transparent">
+      </div>
+      <div className="absolute bottom-6 left-0 right-0 px-4 z-40">
         {inCart ? (
           <div className="w-full bg-brand-surface rounded-2xl p-2 border border-white/10 flex items-center justify-between shadow-glow">
             <button
@@ -1136,10 +931,103 @@ function ProductPage() {
 }
 
 function About() {
+  const { t } = useApp();
   return (
-    <div className="mx-auto max-w-md w-full min-h-screen bg-[#121212] p-6">
-      <h1 className="text-2xl font-black mb-2">About</h1>
-      <p className="text-gray-400">Company info placeholder.</p>
+    <div className="p-6">
+      <h1 className="text-2xl font-black mb-4 italic uppercase">{t.about}</h1>
+      <div className="bg-brand-surface rounded-2xl p-6 border border-white/5 space-y-4">
+         <p className="text-gray-300 leading-relaxed text-sm">Welcome to GamarjobaFood. We provide premium catering services in Tbilisi, specializing in authentic appetizers, sets, and gourmet snacks for your special events.</p>
+         <div className="flex flex-col gap-2">
+            <div className="flex items-center gap-3 text-gray-400 text-xs">
+               <span className="material-symbols-outlined text-brand-yellow">location_on</span>
+               <span>Tbilisi, Georgia</span>
+            </div>
+            <div className="flex items-center gap-3 text-gray-400 text-xs">
+               <span className="material-symbols-outlined text-brand-yellow">mail</span>
+               <span>dondigidonkarton@gmail.com</span>
+            </div>
+         </div>
+      </div>
+    </div>
+  );
+}
+
+function AppShell({ children }) {
+  const { t, query, setQuery, activeSidebar, setActiveSidebar, catalog, getNameOfCategory, mainRef } = useApp();
+  const navigate = useNavigate();
+
+  const categoryIconMap = useMemo(() => ({
+    bruschettas: 'restaurant_menu', pastry: 'bakery_dining', fried_meat: 'kebab_dining',
+    salads: 'eco', seafood: 'set_meal', assortment: 'layers', desserts: 'icecream', default: 'restaurant',
+  }), []);
+
+  const sidebarItems = useMemo(() => {
+    const items = [
+      { id: 'all', icon: 'grid_view', label: t.home || 'All' },
+      { id: 'top', icon: 'local_fire_department', label: t.popular || 'Top' },
+    ];
+    for (const cat of catalog.categories || []) {
+      items.push({ id: cat.id, icon: categoryIconMap[cat.id] || categoryIconMap.default, label: getNameOfCategory(cat.id) });
+    }
+    return items;
+  }, [catalog.categories, categoryIconMap, getNameOfCategory, t.home, t.popular]);
+
+  return (
+    <div className="mx-auto max-w-md w-full relative h-[100dvh] flex flex-col bg-[#121212] overflow-hidden shadow-2xl">
+      <header className="flex-none bg-[#121212]/95 backdrop-blur-sm z-30 px-4 pt-8 pb-4 flex flex-col items-center gap-4 border-b border-[#222]">
+        <div className="flex flex-col items-center gap-1">
+          <div className="w-12 h-12 bg-brand-orange rounded-xl rotate-3 flex items-center justify-center text-white font-black text-2xl shadow-[0_0_20px_rgba(255,165,0,0.3)] mb-1">
+            GF
+          </div>
+          <h1 className="text-xl font-black text-white italic tracking-tighter uppercase">GamarjobaFood</h1>
+        </div>
+
+        <LanguageSwitcher />
+
+        <div className="relative w-full h-11 bg-brand-surface rounded-xl flex items-center px-4 gap-3 border border-[#333] focus-within:border-brand-yellow transition-colors">
+          <span className="material-symbols-outlined text-gray-400 text-xl">search</span>
+          <input
+            value={query}
+            onChange={(e) => {
+              setQuery(e.target.value);
+              if (window.location.hash !== '#/') navigate('/');
+            }}
+            className="bg-transparent border-none outline-none text-white placeholder-gray-500 text-sm flex-1 p-0 focus:ring-0"
+            placeholder={t.search}
+            type="text"
+          />
+        </div>
+      </header>
+
+      <div className="flex-1 flex overflow-hidden relative">
+        <aside className="w-[72px] bg-[#181818] overflow-y-auto hide-scrollbar flex flex-col py-2 gap-1 border-r border-[#222] flex-none">
+          {sidebarItems.map((item) => (
+            <button
+              key={item.id}
+              className={`w-full py-3 flex flex-col items-center gap-1 group transition-colors relative ${
+                activeSidebar === item.id ? 'bg-[#2C2C2C] border-r-[3px] border-brand-yellow' : 'hover:bg-[#222]'
+              }`}
+              onClick={() => {
+                setActiveSidebar(item.id);
+                navigate('/');
+                if (mainRef.current) mainRef.current.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+            >
+              <span className={`material-symbols-outlined text-2xl ${activeSidebar === item.id ? 'text-brand-yellow' : 'text-gray-500 group-hover:text-white'}`}>
+                {item.icon}
+              </span>
+              <span className={`text-[9px] uppercase tracking-tight text-center px-1 ${activeSidebar === item.id ? 'text-white font-bold' : 'text-gray-500 group-hover:text-white'}`}>
+                {item.label}
+              </span>
+            </button>
+          ))}
+        </aside>
+
+        <main ref={mainRef} className="flex-1 overflow-y-auto hide-scrollbar bg-[#121212] relative">
+          {children}
+        </main>
+      </div>
+
       <BottomNav />
     </div>
   );
@@ -1149,16 +1037,18 @@ function App() {
   return (
     <AppProvider>
       <HashRouter>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/sets" element={<SetsList />} />
-          <Route path="/set/:id" element={<SetEditor />} />
-          <Route path="/product/:id" element={<ProductPage />} />
-          <Route path="/cart" element={<ShoppingCart />} />
-          <Route path="/review" element={<ReviewOrder />} />
-          <Route path="/about" element={<About />} />
-          <Route path="*" element={<Home />} />
-        </Routes>
+        <AppShell>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/sets" element={<SetsList />} />
+            <Route path="/set/:id" element={<SetEditor />} />
+            <Route path="/product/:id" element={<ProductPage />} />
+            <Route path="/cart" element={<ShoppingCart />} />
+            <Route path="/review" element={<ReviewOrder />} />
+            <Route path="/about" element={<About />} />
+            <Route path="*" element={<Home />} />
+          </Routes>
+        </AppShell>
       </HashRouter>
     </AppProvider>
   );
