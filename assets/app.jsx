@@ -196,6 +196,7 @@ function LanguageSwitcher() {
 function ProductCard({ product }) {
   const { addProduct, cart, changeQty, removeItem, lang } = useApp();
   const name = (product.i18n?.[lang]?.name) || (product.i18n?.en?.name) || product.id;
+  const description = (product.i18n?.[lang]?.description) || (product.i18n?.en?.description) || product.description;
   const price = Number(product.price || 0);
   const inCart = cart.find(it => it.type === 'product' && it.productId === product.id);
 
@@ -216,8 +217,8 @@ function ProductCard({ product }) {
             {product.weight && (
               <p className="text-[10px] text-gray-400 truncate">{product.weight}</p>
             )}
-            {product.description && (
-              <p className="text-[9px] text-gray-500 line-clamp-1">{product.description}</p>
+            {description && (
+              <p className="text-[9px] text-gray-500 line-clamp-1">{description}</p>
             )}
             <span className="block text-sm font-black text-brand-yellow mt-1">{formatPrice(price)}</span>
           </Link>
@@ -687,6 +688,7 @@ function ReviewOrder() {
 
   const whatsappLink = () => `https://wa.me/?text=${encodeURIComponent(getOrderSummary())}`;
 
+  const { clearCart } = useApp();
   const submitOrder = async () => {
     if (!name || !phone) {
       alert('Please fill in Name and Phone');
@@ -697,7 +699,6 @@ function ReviewOrder() {
     setSubmitStatus(null);
 
     // Requirement 6 & 7: Automated integration
-    // Using SHEETS_WEBHOOK_URL for both Email and Sheets integration (standard practice)
     if (SHEETS_WEBHOOK_URL) {
       try {
         const res = await fetch(SHEETS_WEBHOOK_URL, {
@@ -707,6 +708,7 @@ function ReviewOrder() {
         });
         if (res.ok) {
           setSubmitStatus('success');
+          clearCart();
         } else {
           setSubmitStatus('error');
         }
@@ -718,6 +720,7 @@ function ReviewOrder() {
       // Simulation if no webhook URL provided
       await new Promise(r => setTimeout(r, 1500));
       setSubmitStatus('success');
+      clearCart();
     }
 
     setIsSubmitting(false);
@@ -897,6 +900,7 @@ function ProductPage() {
   if (!product) return <div className="p-6 text-gray-400">Product not found</div>;
 
   const name = (product.i18n?.[lang]?.name) || (product.i18n?.en?.name) || product.id;
+  const description = (product.i18n?.[lang]?.description) || (product.i18n?.en?.description) || product.description;
   const price = Number(product.price || 0);
 
   return (
@@ -923,8 +927,8 @@ function ProductPage() {
             </div>
           </div>
 
-          {product.description && (
-            <p className="text-sm text-gray-400 leading-relaxed font-medium">{product.description}</p>
+          {description && (
+            <p className="text-sm text-gray-400 leading-relaxed font-medium">{description}</p>
           )}
 
           <div className="mt-4 pb-8">
@@ -1010,18 +1014,28 @@ function About() {
 
 function AppShell({ children }) {
   const { t, query, setQuery, activeSidebar, setActiveSidebar, catalog, getNameOfCategory, mainRef } = useApp();
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Prevent iOS rubber-banding and scroll leaking
     const prevent = (e) => {
-      // Allow scroll in scrollable containers only
       const scrollable = e.target.closest('.overflow-y-auto');
       if (!scrollable) e.preventDefault();
     };
     document.addEventListener('touchmove', prevent, { passive: false });
-    return () => document.removeEventListener('touchmove', prevent);
-  }, []);
-  const navigate = useNavigate();
+
+    // Global click listener to close search if empty
+    const handleGlobalClick = () => {
+      if (!query) setIsSearchOpen(false);
+    };
+    document.addEventListener('click', handleGlobalClick);
+
+    return () => {
+      document.removeEventListener('touchmove', prevent);
+      document.removeEventListener('click', handleGlobalClick);
+    };
+  }, [query]);
 
   const categoryIconMap = useMemo(() => ({
     bruschettas: 'restaurant_menu', pastry: 'bakery_dining', fried_meat: 'kebab_dining',
@@ -1043,26 +1057,42 @@ function AppShell({ children }) {
     <div className="mx-auto max-w-md w-full relative h-[100dvh] flex flex-col bg-[#121212] overflow-hidden shadow-2xl">
       <header className="flex-none bg-[#121212]/95 backdrop-blur-sm z-30 px-4 pt-6 pb-4 flex flex-col items-center gap-4 border-b border-[#222]">
         <div className="flex items-center justify-center gap-3">
-          <div className="w-10 h-10 bg-brand-orange rounded-lg rotate-3 flex items-center justify-center text-white font-black text-xl shadow-[0_0_15px_rgba(255,165,0,0.3)]">
+          <div className="w-10 h-10 bg-brand-yellow rounded-lg rotate-3 flex items-center justify-center text-brand-dark font-black text-xl shadow-[0_0_15px_rgba(255,199,44,0.3)]">
             GF
           </div>
           <h1 className="text-xl font-black text-white italic tracking-tighter uppercase">GamarjobaFood</h1>
         </div>
 
-        <LanguageSwitcher />
-
-        <div className="relative w-full h-10 bg-brand-surface rounded-xl flex items-center px-4 gap-3 border border-[#333] focus-within:border-brand-yellow transition-colors">
-          <span className="material-symbols-outlined text-gray-400 text-xl">search</span>
-          <input
-            value={query}
-            onChange={(e) => {
-              setQuery(e.target.value);
-              if (window.location.hash !== '#/') navigate('/');
-            }}
-            className="bg-transparent border-none outline-none text-white placeholder-gray-500 text-sm flex-1 p-0 focus:ring-0"
-            placeholder={t.search}
-            type="text"
-          />
+        <div className="flex items-center justify-between w-full gap-2 px-1">
+           <div className="relative flex-1 flex items-center justify-end" onClick={(e) => e.stopPropagation()}>
+              {!(isSearchOpen || query) ? (
+                 <button
+                   onClick={() => setIsSearchOpen(true)}
+                   className="w-10 h-10 rounded-xl bg-brand-surface flex items-center justify-center text-gray-400 hover:text-brand-yellow transition-colors border border-[#333]"
+                 >
+                    <span className="material-symbols-outlined">search</span>
+                 </button>
+              ) : (
+                 <div className="absolute right-0 w-full h-10 bg-brand-surface rounded-xl flex items-center px-3 gap-2 border border-brand-yellow shadow-glow z-10 transition-all">
+                    <span className="material-symbols-outlined text-brand-yellow text-xl">search</span>
+                    <input
+                      autoFocus
+                      value={query}
+                      onChange={(e) => {
+                        setQuery(e.target.value);
+                        if (window.location.hash !== '#/') navigate('/');
+                      }}
+                      className="bg-transparent border-none outline-none text-white placeholder-gray-500 text-sm flex-1 p-0 focus:ring-0"
+                      placeholder={t.search}
+                      type="text"
+                    />
+                    <button onClick={() => setQuery('')} className="text-gray-500 hover:text-white flex items-center p-1">
+                       <span className="material-symbols-outlined text-lg">close</span>
+                    </button>
+                 </div>
+              )}
+           </div>
+           <LanguageSwitcher />
         </div>
       </header>
 
