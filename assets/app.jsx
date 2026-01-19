@@ -310,6 +310,7 @@ function CategoryBar({ categories, current, onSelect }) {
 
 function Home() {
   const { catalog, lang, t, getNameOfCategory, query, activeSidebar } = useApp();
+  const { pathname } = useLocation();
 
   const filteredProducts = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -330,7 +331,10 @@ function Home() {
   const promoSets = useMemo(() => (catalog.sets || []).slice(0, 3), [catalog.sets]);
 
   return (
-    <div className="flex-1 overflow-y-auto hide-scrollbar p-4 flex flex-col gap-6">
+    <div className="flex-1 overflow-y-auto hide-scrollbar p-4 flex flex-col gap-6 relative">
+      {pathname.includes('/product/') && <ProductPage />}
+      {pathname.includes('/set/') && <SetEditor />}
+
       {(activeSidebar === 'all' || activeSidebar === 'top') && (
         <section className="w-full">
           <div className="flex overflow-x-auto gap-3 pb-2 hide-scrollbar snap-x snap-mandatory">
@@ -405,8 +409,10 @@ function BottomNav() {
 
 function SetsList() {
   const { catalog } = useApp();
+  const { pathname } = useLocation();
   return (
-    <div className="flex-1 overflow-y-auto hide-scrollbar p-4 flex flex-col gap-4">
+    <div className="flex-1 overflow-y-auto hide-scrollbar p-4 flex flex-col gap-4 relative">
+      {pathname.includes('/set/') && <SetEditor />}
       <h1 className="text-2xl font-black mb-2">Chef's Specials</h1>
       <div className="grid grid-cols-1 gap-4">
         {catalog.sets.map(s => <SetCard key={s.id} setDef={s} />)}
@@ -462,7 +468,7 @@ function SetEditor() {
   }, [perPerson, priceOfProduct, variant]);
   const totalPrice = useMemo(() => pricePerPerson * persons, [pricePerPerson, persons]);
 
-  if (!setDef) return <div className="p-6 text-gray-400">Not found</div>;
+  if (!setDef) return null;
 
   const title = setDef.i18n?.[lang] || setDef.i18n?.en || setDef.id;
 
@@ -472,7 +478,7 @@ function SetEditor() {
   };
 
   return (
-    <div className="flex flex-col h-full overflow-hidden">
+    <div className="absolute inset-0 z-50 bg-[#121212] flex flex-col overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-300">
       <div className="flex-1 overflow-y-auto hide-scrollbar">
         <header className="relative w-full h-[180px] overflow-hidden">
           <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url('${getSetImg(setDef, 800, 400)}')` }}></div>
@@ -689,6 +695,11 @@ function ReviewOrder() {
   };
 
   const whatsappLink = () => `https://wa.me/?text=${encodeURIComponent(getOrderSummary())}`;
+  const mailtoLink = () => {
+    const subject = encodeURIComponent(`New Order ${orderId}`);
+    const body = encodeURIComponent(getOrderSummary());
+    return `mailto:dondigidonkarton@gmail.com?subject=${subject}&body=${body}`;
+  };
 
   const orderId = useMemo(() => `#TB-${String(Date.now()).slice(-4)}`, []);
 
@@ -808,9 +819,15 @@ function ReviewOrder() {
 
     setIsSubmitting(false);
 
-    // Requirement 4: WhatsApp for feedback
+    // Requirement 4 & 6: Feedback and Email
     setTimeout(() => {
-      window.open(whatsappLink(), '_blank');
+      if (!SHEETS_WEBHOOK_URL) {
+        // Fallback to mailto if no backend configured
+        window.location.href = mailtoLink();
+      }
+      setTimeout(() => {
+        window.open(whatsappLink(), '_blank');
+      }, 500);
     }, 1000);
   };
 
@@ -990,14 +1007,14 @@ function ProductPage() {
   const inCart = useMemo(() => product ? cart.find(it => it.type === 'product' && it.productId === product.id) : null, [cart, product]);
   const recommendations = useMemo(() => product ? (catalog.products || []).filter(p => p.id !== product.id && (p.category === product.category || p.popular)).slice(0, 3) : [], [catalog.products, product]);
 
-  if (!product) return <div className="p-6 text-gray-400">Product not found</div>;
+  if (!product) return null;
 
   const name = (product.i18n?.[lang]?.name) || (product.i18n?.en?.name) || product.id;
   const description = (product.i18n?.[lang]?.description) || (product.i18n?.en?.description) || product.description;
   const price = Number(product.price || 0);
 
   return (
-    <div className="flex flex-col h-full overflow-hidden">
+    <div className="absolute inset-0 z-50 bg-[#121212] flex flex-col overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-300">
       <div className="flex-1 overflow-y-auto hide-scrollbar">
         <div className="px-4 py-4 flex flex-col gap-4">
           <div className="w-full aspect-square rounded-2xl overflow-hidden bg-[#222] relative">
@@ -1202,7 +1219,9 @@ function AppShell({ children }) {
               onClick={() => {
                 setActiveSidebar(item.id);
                 navigate('/');
-                if (mainRef.current) mainRef.current.scrollTo({ top: 0, behavior: 'smooth' });
+                // Fix: find the scrollable container within main
+                const scrollable = mainRef.current?.querySelector('.overflow-y-auto');
+                if (scrollable) scrollable.scrollTo({ top: 0, behavior: 'smooth' });
               }}
             >
               <span className={`material-symbols-outlined text-2xl ${activeSidebar === item.id ? 'text-brand-yellow' : 'text-gray-500 group-hover:text-white'}`}>
@@ -1233,8 +1252,9 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/sets" element={<SetsList />} />
-            <Route path="/set/:id" element={<SetEditor />} />
-            <Route path="/product/:id" element={<ProductPage />} />
+            {/* These routes now serve the background with the overlay */}
+            <Route path="/set/:id" element={<Home />} />
+            <Route path="/product/:id" element={<Home />} />
             <Route path="/cart" element={<ShoppingCart />} />
             <Route path="/review" element={<ReviewOrder />} />
             <Route path="/about" element={<About />} />
