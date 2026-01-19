@@ -2,6 +2,8 @@
 import React, { useState, useEffect, useMemo, useContext, createContext } from 'react';
 import { createRoot } from 'react-dom/client';
 import { HashRouter, Routes, Route, Link, useNavigate, useLocation } from 'react-router-dom';
+import { jsPDF } from 'jspdf';
+import 'jspdf-autotable';
 
 // Utils
 const STORAGE_KEYS = {
@@ -688,6 +690,89 @@ function ReviewOrder() {
 
   const whatsappLink = () => `https://wa.me/?text=${encodeURIComponent(getOrderSummary())}`;
 
+  const orderId = useMemo(() => `#TB-${String(Date.now()).slice(-4)}`, []);
+
+  const generateReceiptPDF = () => {
+    const doc = new jsPDF();
+    const pageWidth = doc.internal.pageSize.getWidth();
+
+    // Header
+    doc.setFillColor(255, 199, 44); // Brand Yellow
+    doc.rect(0, 0, pageWidth, 40, 'F');
+
+    doc.setTextColor(18, 18, 18);
+    doc.setFontSize(24);
+    doc.setFont('helvetica', 'bold');
+    doc.text('GamarjobaFood', 15, 25);
+
+    doc.setFontSize(10);
+    doc.text('Catering Receipt', 15, 32);
+
+    // Order Info
+    doc.setTextColor(60, 60, 60);
+    doc.setFontSize(10);
+    doc.text(`Order ID: ${orderId}`, pageWidth - 15, 20, { align: 'right' });
+    doc.text(`Created: ${createdAt}`, pageWidth - 15, 26, { align: 'right' });
+
+    // Customer Details
+    doc.setTextColor(18, 18, 18);
+    doc.setFontSize(14);
+    doc.text('Customer Information', 15, 55);
+
+    doc.setFontSize(10);
+    doc.setFont('helvetica', 'normal');
+    const customerInfo = [
+      ['Name:', name],
+      ['Date of Event:', date],
+      ['Guests:', guests],
+      ['Phone:', phone]
+    ];
+
+    let currentY = 65;
+    customerInfo.forEach(([label, value]) => {
+      doc.setFont('helvetica', 'bold');
+      doc.text(label, 15, currentY);
+      doc.setFont('helvetica', 'normal');
+      doc.text(String(value || '-'), 50, currentY);
+      currentY += 6;
+    });
+
+    // Items Table
+    const tableRows = cart.map((it, idx) => {
+      let details = it.type === 'product' ? `${it.qty}x` : `${it.setConfig?.persons} pax`;
+      return [
+        idx + 1,
+        it.title,
+        details,
+        formatPriceString(it.type === 'product' ? it.price * it.qty : it.price)
+      ];
+    });
+
+    doc.autoTable({
+      startY: currentY + 10,
+      head: [['#', 'Item', 'Qty/Details', 'Price']],
+      body: tableRows,
+      headStyles: { fillColor: [30, 30, 30], textColor: [255, 255, 255] },
+      alternateRowStyles: { fillColor: [245, 245, 245] },
+      margin: { left: 15, right: 15 }
+    });
+
+    const finalY = doc.lastAutoTable.finalY;
+
+    // Totals
+    doc.setFontSize(12);
+    doc.setFont('helvetica', 'bold');
+    doc.text(`Total: ${formatPriceString(totals.total)}`, pageWidth - 15, finalY + 15, { align: 'right' });
+
+    // Footer
+    doc.setFontSize(8);
+    doc.setFont('helvetica', 'italic');
+    doc.setTextColor(150, 150, 150);
+    doc.text('Thank you for choosing GamarjobaFood!', pageWidth / 2, finalY + 30, { align: 'center' });
+
+    doc.save(`receipt-${orderId.replace('#', '')}.pdf`);
+  };
+
   const { clearCart } = useApp();
   const submitOrder = async () => {
     if (!name || !phone) {
@@ -708,7 +793,6 @@ function ReviewOrder() {
         });
         if (res.ok) {
           setSubmitStatus('success');
-          clearCart();
         } else {
           setSubmitStatus('error');
         }
@@ -720,7 +804,6 @@ function ReviewOrder() {
       // Simulation if no webhook URL provided
       await new Promise(r => setTimeout(r, 1500));
       setSubmitStatus('success');
-      clearCart();
     }
 
     setIsSubmitting(false);
@@ -740,12 +823,22 @@ function ReviewOrder() {
             <div className="flex justify-between items-center mb-6 pb-4 border-b border-dashed border-[#444]">
               <div className="flex flex-col">
                 <span className="text-[10px] font-black text-gray-500 uppercase tracking-widest">ID</span>
-                <span className="text-base font-bold tracking-widest font-mono">#TB-{String(Date.now()).slice(-4)}</span>
+                <span className="text-base font-bold tracking-widest font-mono">{orderId}</span>
               </div>
               <div className="px-2 py-1 rounded bg-brand-yellow/10 border border-brand-yellow/20">
                 <span className="text-[9px] font-bold text-brand-yellow uppercase">{t.createdInTbilisi} • {createdAt}</span>
               </div>
             </div>
+
+            {submitStatus === 'success' && (
+              <button
+                onClick={generateReceiptPDF}
+                className="w-full mb-6 bg-white/10 hover:bg-white/20 text-white border border-white/20 rounded-lg py-3 flex items-center justify-center gap-2 transition-colors active:scale-95"
+              >
+                <span className="material-symbols-outlined">download</span>
+                <span className="text-xs font-bold uppercase tracking-wider">Download Receipt (PDF)</span>
+              </button>
+            )}
 
             <div className="space-y-5">
               {cart.map((it) => (
@@ -1056,15 +1149,17 @@ function AppShell({ children }) {
   return (
     <div className="mx-auto max-w-md w-full relative h-[100dvh] flex flex-col bg-[#121212] overflow-hidden shadow-2xl">
       <header className="flex-none bg-[#121212]/95 backdrop-blur-sm z-30 px-4 pt-6 pb-4 flex flex-col items-center gap-4 border-b border-[#222]">
-        <div className="flex items-center justify-center gap-3">
-          <div className="w-10 h-10 bg-brand-yellow rounded-lg rotate-3 flex items-center justify-center text-brand-dark font-black text-xl shadow-[0_0_15px_rgba(255,199,44,0.3)]">
+        {/* Row 1: Logo and Title */}
+        <div className="flex items-center justify-center gap-3 w-full">
+          <div className="w-10 h-10 bg-brand-yellow rounded-lg rotate-3 flex items-center justify-center text-brand-dark font-black text-xl shadow-[0_0_15px_rgba(255,199,44,0.3)] shrink-0">
             GF
           </div>
-          <h1 className="text-xl font-black text-white italic tracking-tighter uppercase">GamarjobaFood</h1>
+          <h1 className="text-xl font-black text-white italic tracking-tighter uppercase truncate">GamarjobaFood</h1>
         </div>
 
-        <div className="flex items-center justify-between w-full gap-2 px-1">
-           <div className="relative flex-1 flex items-center justify-end" onClick={(e) => e.stopPropagation()}>
+        {/* Row 2: Search and Language Switcher */}
+        <div className="flex items-center justify-center w-full gap-4">
+           <div className="relative flex items-center justify-center" onClick={(e) => e.stopPropagation()}>
               {!(isSearchOpen || query) ? (
                  <button
                    onClick={() => setIsSearchOpen(true)}
@@ -1073,7 +1168,7 @@ function AppShell({ children }) {
                     <span className="material-symbols-outlined">search</span>
                  </button>
               ) : (
-                 <div className="absolute right-0 w-full h-10 bg-brand-surface rounded-xl flex items-center px-3 gap-2 border border-brand-yellow shadow-glow z-10 transition-all">
+                 <div className="flex items-center w-[180px] h-10 bg-brand-surface rounded-xl px-3 gap-2 border border-brand-yellow shadow-glow z-10 transition-all">
                     <span className="material-symbols-outlined text-brand-yellow text-xl">search</span>
                     <input
                       autoFocus
@@ -1082,11 +1177,11 @@ function AppShell({ children }) {
                         setQuery(e.target.value);
                         if (window.location.hash !== '#/') navigate('/');
                       }}
-                      className="bg-transparent border-none outline-none text-white placeholder-gray-500 text-sm flex-1 p-0 focus:ring-0"
+                      className="bg-transparent border-none outline-none text-white placeholder-gray-500 text-sm flex-1 p-0 focus:ring-0 w-full"
                       placeholder={t.search}
                       type="text"
                     />
-                    <button onClick={() => setQuery('')} className="text-gray-500 hover:text-white flex items-center p-1">
+                    <button onClick={() => setQuery('')} className="text-gray-500 hover:text-white flex items-center p-1 shrink-0">
                        <span className="material-symbols-outlined text-lg">close</span>
                     </button>
                  </div>
