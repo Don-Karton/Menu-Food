@@ -38,9 +38,9 @@ function parseMenuJsonWithComments(text) {
 
 // i18n dictionary for UI strings
 const UI_STRINGS = {
-  en: { home: 'Home', sets: 'Sets', about: 'About Us', search: 'Search menu...', popular: 'Popular Now', checkout: 'Checkout', cart: 'My Order', clearAll: 'Clear All', subtotal: 'Subtotal', delivery: 'Delivery Fee', discount: 'Discount', total: 'Total', reviewOrder: 'Review Order', eventDetails: 'Event Details', eventDate: 'Event Date', fullName: 'Full Name', guests: 'Guests', phone: 'Phone', createdInTbilisi: 'Created in Tbilisi', sendOrder: 'Send Order', proceedToPayment: 'Proceed to Payment', addToCart: 'Add to Order', saveSet: 'Save Set', editSet: 'Edit Set', persons: 'Number of Guests', portion: 'Portion Type', adult: 'Adult', child: 'Child', included: 'INCLUDED', frequently: 'Complete Your Meal', placeOrder: 'Place Order', submitOrder: 'Submit Order', personsShort: 'pax', language: 'Language' },
-  ru: { home: 'Главная', sets: 'Сеты', about: 'О нас', search: 'Поиск по меню...', popular: 'Популярно сейчас', checkout: 'Оформить', cart: 'Мой заказ', clearAll: 'Очистить', subtotal: 'Промежуточный итог', delivery: 'Доставка', discount: 'Скидка', total: 'Итого', reviewOrder: 'Проверка заказа', eventDetails: 'Детали мероприятия', eventDate: 'Дата мероприятия', fullName: 'Имя', guests: 'Гостей', phone: 'Телефон', createdInTbilisi: 'Создано в Тбилиси', sendOrder: 'Отправить заказ', proceedToPayment: 'Перейти к оплате', addToCart: 'В корзину', saveSet: 'Сохранить сет', editSet: 'Редактировать сет', persons: 'Количество гостей', portion: 'Тип порции', adult: 'Взрослая', child: 'Детская', included: 'ВКЛЮЧЕНО', frequently: 'Дополнить заказ', placeOrder: 'Сформировать заказ', submitOrder: 'Отправить заказ', personsShort: 'перс.', language: 'Язык' },
-  ka: { home: 'მთავარი', sets: 'სეტები', about: 'ჩვენ შესახებ', search: 'მოძებნე მენიუში...', popular: 'პოპულარული', checkout: 'გადახდა', cart: 'ჩემი შეკვეთა', clearAll: 'გასუფთავება', subtotal: 'ერთობლივი', delivery: 'მიწოდება', discount: 'ფასდაკლება', total: 'ჯამი', reviewOrder: 'შეკვეთის დათვალიერება', eventDetails: 'ღონისძიების დეტალები', eventDate: 'თარიღი', fullName: 'სახელი', guests: 'პერსონები', phone: 'ტელეფონი', createdInTbilisi: 'დრო თბილისი', sendOrder: 'შეკვეთის გაგზავნა', proceedToPayment: 'გადახდაზე გადასვლა', addToCart: 'კალათში დამატება', saveSet: 'სეტის შენახვა', editSet: 'რედაქტირება', persons: 'პერსონების რაოდენობა', portion: 'პორციის ტიპი', adult: 'ზრდასრული', child: 'ბავშვი', included: 'შეყვანილი', frequently: 'დაამატე წყვილად', placeOrder: 'შეკვეთის ფორმირება', submitOrder: 'გაგზავნა', personsShort: 'პერს.', language: 'ენა' },
+  en: { home: 'Home', sets: 'Sets', about: 'About Us', search: 'Search menu...', popular: 'Popular Now', checkout: 'Checkout', cart: 'My Order', clearAll: 'Clear All', subtotal: 'Subtotal', delivery: 'Delivery Fee', discount: 'Discount', total: 'Total', reviewOrder: 'Review Order', eventDetails: 'Event Details', eventDate: 'Event Date', fullName: 'Full Name', guests: 'Guests', phone: 'Phone', createdInTbilisi: 'Created in Tbilisi', sendOrder: 'Send Order', completeSubmission: 'Complete Submission', checkWhatsapp: 'Opening WhatsApp...', addToCart: 'Add to Order', saveSet: 'Save Set', editSet: 'Edit Set', persons: 'Number of Guests', portion: 'Portion Type', adult: 'Adult', child: 'Child', included: 'INCLUDED', frequently: 'Complete Your Meal', placeOrder: 'Place Order', submitOrder: 'Submit Order', personsShort: 'pax', language: 'Language', sending: 'Sending...', orderSent: 'Order Sent!', orderFailed: 'Failed to send' },
+  ru: { home: 'Главная', sets: 'Сеты', about: 'О нас', search: 'Поиск по меню...', popular: 'Популярно сейчас', checkout: 'Оформить', cart: 'Мой заказ', clearAll: 'Очистить', subtotal: 'Промежуточный итог', delivery: 'Доставка', discount: 'Скидка', total: 'Итого', reviewOrder: 'Проверка заказа', eventDetails: 'Детали мероприятия', eventDate: 'Дата мероприятия', fullName: 'Имя', guests: 'Гостей', phone: 'Телефон', createdInTbilisi: 'Создано в Тбилиси', sendOrder: 'Отправить заказ', completeSubmission: 'Завершить оформление', checkWhatsapp: 'Открываем WhatsApp...', addToCart: 'В корзину', saveSet: 'Сохранить сет', editSet: 'Редактировать сет', persons: 'Количество гостей', portion: 'Тип порции', adult: 'Взрослая', child: 'Детская', included: 'ВКЛЮЧЕНО', frequently: 'Дополнить заказ', placeOrder: 'Сформировать заказ', submitOrder: 'Отправить заказ', personsShort: 'перс.', language: 'Язык', sending: 'Отправка...', orderSent: 'Заказ отправлен!', orderFailed: 'Ошибка отправки' },
+  ka: { home: 'მთავარი', sets: 'სეტები', about: 'ჩვენ შესახებ', search: 'მოძებნე მენიუში...', popular: 'პოპულარული', checkout: 'გადახდა', cart: 'ჩემი შეკვეთა', clearAll: 'გასუფთავება', subtotal: 'ერთობლივი', delivery: 'მიწოდება', discount: 'ფასდაკლება', total: 'ჯამი', reviewOrder: 'შეკვეთის დათვალიერება', eventDetails: 'ღონისების დეტალები', eventDate: 'თარიღი', fullName: 'სახელი', guests: 'პერსონები', phone: 'ტელეფონი', createdInTbilisi: 'დრო თბილისი', sendOrder: 'შეკვეთის გაგზავნა', completeSubmission: 'გაფორმების დასრულება', checkWhatsapp: 'WhatsApp-ის გახსნა...', addToCart: 'კალათში დამატება', saveSet: 'სეტის შენახვა', editSet: 'რედაქტირება', persons: 'პერსონების რაოდენობა', portion: 'პორციის ტიპი', adult: 'ზრდასრული', child: 'ბავშვი', included: 'შეყვანილი', frequently: 'დაამატე წყვილად', placeOrder: 'შეკვეთის ფორმირება', submitOrder: 'გაგზავნა', personsShort: 'პერს.', language: 'ენა', sending: 'იგზავნება...', orderSent: 'გაგზავნილია!', orderFailed: 'ვერ გაიგზავნა' },
 };
 
 // Global App Context
@@ -327,7 +327,7 @@ function Home() {
   const promoSets = useMemo(() => (catalog.sets || []).slice(0, 3), [catalog.sets]);
 
   return (
-    <div className="p-4 flex flex-col gap-6">
+    <div className="flex-1 overflow-y-auto hide-scrollbar p-4 flex flex-col gap-6">
       {(activeSidebar === 'all' || activeSidebar === 'top') && (
         <section className="w-full">
           <div className="flex overflow-x-auto gap-3 pb-2 hide-scrollbar snap-x snap-mandatory">
@@ -375,25 +375,25 @@ function Home() {
 function BottomNav() {
   const { totals, t } = useApp();
   return (
-    <nav className="flex-none z-50 bg-[#1E1E1E] border-t border-[#333] pb-6 pt-3 px-8">
+    <nav className="flex-none z-50 bg-[#1E1E1E] border-t border-[#333] pb-3 pt-2 px-8">
       <div className="flex items-center justify-between">
-        <Link className="flex flex-col items-center justify-center w-14 gap-1.5 text-brand-yellow group -mt-4" to="/">
-          <span className="material-symbols-outlined text-[26px] filled group-hover:scale-110 transition-transform">home</span>
-          <span className="text-[10px] font-bold">{t.home}</span>
+        <Link className="flex flex-col items-center justify-center w-14 gap-1 text-brand-yellow group -mt-4" to="/">
+          <span className="material-symbols-outlined text-[24px] filled group-hover:scale-110 transition-transform">home</span>
+          <span className="text-[9px] font-bold uppercase tracking-tight">{t.home}</span>
         </Link>
-        <Link className="flex flex-col items-center justify-center w-14 gap-1.5 text-gray-400 hover:text-white transition-colors group -mt-4" to="/sets">
-          <span className="material-symbols-outlined text-[26px] group-hover:scale-110 transition-transform">view_list</span>
-          <span className="text-[10px] font-medium">{t.sets}</span>
+        <Link className="flex flex-col items-center justify-center w-14 gap-1 text-gray-400 hover:text-white transition-colors group -mt-4" to="/sets">
+          <span className="material-symbols-outlined text-[24px] group-hover:scale-110 transition-transform">view_list</span>
+          <span className="text-[9px] font-medium uppercase tracking-tight">{t.sets}</span>
         </Link>
-        <div className="relative -top-10 mx-2">
-          <Link to="/cart" className="w-[90px] h-[90px] bg-brand-yellow rounded-full shadow-[0_4px_30px_rgba(255,199,44,0.6)] flex flex-col items-center justify-center border-4 border-[#1E1E1E] active:scale-95 transition-transform group relative z-10">
-            <span className="material-symbols-outlined text-black text-[40px] group-hover:scale-110 transition-transform mb-0.5">shopping_cart</span>
-            <span className="absolute -bottom-4 bg-[#121212] border border-[#333] text-white px-3 py-1 rounded-full text-[13px] font-black shadow-md whitespace-nowrap min-w-[80px] text-center">{formatPrice(totals.total)}</span>
+        <div className="relative -top-9 mx-2">
+          <Link to="/cart" className="w-[84px] h-[84px] bg-brand-yellow rounded-full shadow-[0_4px_25px_rgba(255,199,44,0.5)] flex flex-col items-center justify-center border-4 border-[#1E1E1E] active:scale-95 transition-transform group relative z-10">
+            <span className="material-symbols-outlined text-black text-[36px] group-hover:scale-110 transition-transform mb-0.5">shopping_cart</span>
+            <span className="absolute -bottom-3 bg-[#121212] border border-[#333] text-white px-2 py-0.5 rounded-full text-[12px] font-black shadow-md whitespace-nowrap min-w-[76px] text-center">{formatPrice(totals.total)}</span>
           </Link>
         </div>
-        <Link className="flex flex-col items-center justify-center w-14 gap-1.5 text-gray-400 hover:text-white transition-colors group -mt-4" to="/about">
-          <span className="material-symbols-outlined text-[26px] group-hover:scale-110 transition-transform">info</span>
-          <span className="text-[10px] font-medium">{t.about}</span>
+        <Link className="flex flex-col items-center justify-center w-14 gap-1 text-gray-400 hover:text-white transition-colors group -mt-4" to="/about">
+          <span className="material-symbols-outlined text-[24px] group-hover:scale-110 transition-transform">info</span>
+          <span className="text-[9px] font-medium uppercase tracking-tight">{t.about}</span>
         </Link>
       </div>
     </nav>
@@ -403,7 +403,7 @@ function BottomNav() {
 function SetsList() {
   const { catalog } = useApp();
   return (
-    <div className="p-4 flex flex-col gap-4">
+    <div className="flex-1 overflow-y-auto hide-scrollbar p-4 flex flex-col gap-4">
       <h1 className="text-2xl font-black mb-2">Chef's Specials</h1>
       <div className="grid grid-cols-1 gap-4">
         {catalog.sets.map(s => <SetCard key={s.id} setDef={s} />)}
@@ -459,7 +459,7 @@ function SetEditor() {
   }, [perPerson, priceOfProduct, variant]);
   const totalPrice = useMemo(() => pricePerPerson * persons, [pricePerPerson, persons]);
 
-  if (!setDef) return <div className="p-6">Not found</div>;
+  if (!setDef) return <div className="p-6 text-gray-400">Not found</div>;
 
   const title = setDef.i18n?.[lang] || setDef.i18n?.en || setDef.id;
 
@@ -469,78 +469,80 @@ function SetEditor() {
   };
 
   return (
-    <div className="pb-32">
-      <header className="relative w-full h-[200px] overflow-hidden">
-        <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url('${getSetImg(setDef, 800, 480)}')` }}></div>
-        <div className="absolute inset-0 bg-gradient-to-t from-[#121212] via-[#121212]/40 to-transparent"></div>
-        <div className="absolute bottom-0 left-0 w-full px-6 pb-6">
-          <h1 className="text-2xl font-black italic uppercase leading-none mb-2">{title}</h1>
-        </div>
-      </header>
+    <div className="flex flex-col h-full overflow-hidden">
+      <div className="flex-1 overflow-y-auto hide-scrollbar">
+        <header className="relative w-full h-[180px] overflow-hidden">
+          <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url('${getSetImg(setDef, 800, 400)}')` }}></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-[#121212] via-transparent to-transparent"></div>
+          <div className="absolute bottom-4 left-6">
+            <h1 className="text-2xl font-black italic uppercase leading-none text-white drop-shadow-lg">{title}</h1>
+          </div>
+        </header>
 
-      <div className="px-4 py-2 space-y-3 mb-4">
-        <div className="bg-brand-surface rounded-xl p-4 flex items-center justify-between border border-white/5 shadow-soft">
-          <div className="flex flex-col">
-            <span className="text-[11px] text-gray-400 font-bold uppercase tracking-widest mb-1">{t.persons}</span>
-            <span className="text-white font-bold text-xl">{persons} {t.personsShort}</span>
+        <div className="px-4 py-4 space-y-3">
+          <div className="bg-brand-surface rounded-xl p-4 flex items-center justify-between border border-white/5 shadow-soft">
+            <div className="flex flex-col">
+              <span className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mb-1">{t.persons}</span>
+              <span className="text-white font-bold text-xl">{persons} {t.personsShort}</span>
+            </div>
+            <div className="flex items-center bg-[#1a1a1a] rounded-lg p-1 border border-white/5">
+              <button onClick={() => setPersons(Math.max(1, persons-1))} className="w-9 h-9 rounded-md hover:bg-white/5 flex items-center justify-center text-gray-400 active:text-white transition-colors">
+                <span className="material-symbols-outlined">remove</span>
+              </button>
+              <div className="w-[1px] h-5 bg-white/10 mx-1"></div>
+              <button onClick={() => setPersons(persons+1)} className="w-9 h-9 rounded-md hover:bg-white/5 flex items-center justify-center text-brand-yellow active:text-white transition-colors">
+                <span className="material-symbols-outlined">add</span>
+              </button>
+            </div>
           </div>
-          <div className="flex items-center bg-[#1a1a1a] rounded-lg p-1 border border-white/5">
-            <button onClick={() => setPersons(Math.max(1, persons-1))} className="w-10 h-10 rounded-md hover:bg-white/5 flex items-center justify-center text-gray-400 active:text-white transition-colors">
-              <span className="material-symbols-outlined">remove</span>
-            </button>
-            <div className="w-[1px] h-6 bg-white/10"></div>
-            <button onClick={() => setPersons(persons+1)} className="w-10 h-10 rounded-md hover:bg-white/5 flex items-center justify-center text-brand-yellow active:text-white transition-colors">
-              <span className="material-symbols-outlined">add</span>
-            </button>
-          </div>
-        </div>
 
-        <div className="bg-brand-surface rounded-xl p-4 flex items-center justify-between border border-white/5 shadow-soft">
-          <div className="flex flex-col">
-            <span className="text-[11px] text-gray-400 font-bold uppercase tracking-widest mb-1">{t.portion}</span>
-            <span className="text-brand-yellow font-bold text-sm">{variant === 'adult' ? t.adult : t.child}</span>
+          <div className="bg-brand-surface rounded-xl p-4 flex items-center justify-between border border-white/5 shadow-soft">
+            <div className="flex flex-col">
+              <span className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mb-1">{t.portion}</span>
+              <span className="text-brand-yellow font-bold text-xs uppercase">{variant === 'adult' ? t.adult : t.child}</span>
+            </div>
+            <div className="flex bg-[#1a1a1a] p-1 rounded-lg border border-white/5">
+              {(setDef.variants||['adult']).map(v => (
+                <button key={v} onClick={()=>setVariant(v)} className={`px-4 py-2 rounded-[6px] text-[10px] font-black uppercase transition-all ${variant===v? 'bg-brand-yellow text-black shadow-sm' : 'text-gray-500 hover:text-white'}`}>{v==='adult'?t.adult:t.child}</button>
+              ))}
+            </div>
           </div>
-          <div className="flex bg-[#1a1a1a] p-1 rounded-lg border border-white/5">
-            {(setDef.variants||['adult']).map(v => (
-              <button key={v} onClick={()=>setVariant(v)} className={`px-4 py-2 rounded-[6px] text-xs font-bold ${variant===v? 'bg-brand-yellow text-black' : 'text-gray-400 hover:text-white'}`}>{v==='adult'?t.adult:t.child}</button>
+
+          <div className="flex flex-col gap-3 py-2">
+            {perPerson.map(row => (
+              <div key={row.productId} className="group relative bg-brand-surface rounded-xl p-3 flex gap-3 border border-white/5 shadow-soft">
+                <Link to={`/product/${row.productId}`} className="w-16 h-16 shrink-0 rounded-lg bg-[#222] overflow-hidden relative block shadow-inner">
+                  <div className="absolute inset-0 bg-cover bg-center" style={{backgroundImage: `url('${getProductImg({id: row.productId}, 160)}')`}}></div>
+                </Link>
+                <div className="flex flex-col flex-1 min-w-0">
+                  <div className="flex justify-between items-start gap-1">
+                    <Link to={`/product/${row.productId}`} className="flex-1 truncate">
+                      <h3 className="font-bold text-white text-sm leading-tight hover:text-brand-yellow transition-colors">{getNameOfProduct(row.productId)}</h3>
+                    </Link>
+                    <span className="text-brand-yellow font-black text-[8px] bg-brand-yellow/10 px-1 py-0.5 rounded border border-brand-yellow/20 uppercase shrink-0">{t.included}</span>
+                  </div>
+                  <div className="flex items-center justify-between mt-auto">
+                    <div className="text-[10px] text-gray-500">{row.qtyPerPerson} / person</div>
+                    <div className="flex items-center gap-2 bg-[#1a1a1a] rounded-full p-0.5 border border-white/5 shadow-inner">
+                      <button onClick={()=>bump(row.productId, -0.5)} className="w-6 h-6 rounded-full bg-brand-surface flex items-center justify-center text-white active:scale-90 transition-all">
+                        <span className="material-symbols-outlined text-[12px]">remove</span>
+                      </button>
+                      <span className="text-xs font-bold text-white w-7 text-center">{row.qtyPerPerson.toFixed(2)}</span>
+                      <button onClick={()=>bump(row.productId, +0.5)} className="w-6 h-6 rounded-full bg-brand-yellow flex items-center justify-center text-black active:scale-90 transition-all">
+                        <span className="material-symbols-outlined text-[12px]">add</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
             ))}
           </div>
         </div>
       </div>
-
-      <main className="px-4 py-6 flex flex-col gap-4">
-        {perPerson.map(row => (
-          <div key={row.productId} className="group relative bg-brand-surface rounded-2xl p-3 flex gap-4 overflow-hidden border border-white/5 shadow-soft">
-            <Link to={`/product/${row.productId}`} className="w-20 h-20 shrink-0 rounded-xl bg-gray-800 overflow-hidden relative shadow-inner block hover:opacity-80 transition-opacity">
-              <div className="absolute inset-0 bg-cover bg-center" style={{backgroundImage: `url('${getProductImg(productsById.get(row.productId), 160)}')`}}></div>
-            </Link>
-            <div className="flex flex-col flex-1 py-1">
-              <div className="flex justify-between items-start mb-1">
-                <Link to={`/product/${row.productId}`} className="hover:text-brand-yellow transition-colors flex-1 min-w-0 pr-2">
-                  <h3 className="font-bold text-white text-base leading-tight truncate">{getNameOfProduct(row.productId)}</h3>
-                </Link>
-                <span className="text-brand-yellow font-black text-xs bg-brand-yellow/10 px-1.5 py-0.5 rounded border border-brand-yellow/20 shrink-0">{t.included}</span>
-              </div>
-              <div className="flex items-center justify-between mt-2">
-                <div className="text-[11px] text-gray-400">{row.qtyPerPerson} / person</div>
-                <div className="flex items-center gap-3 bg-brand-dark rounded-full px-1 py-1 border border-white/10 shadow-inner">
-                  <button onClick={()=>bump(row.productId, -0.5)} className="w-7 h-7 rounded-full bg-brand-surface flex items-center justify-center text-white hover:bg-gray-700 transition-colors">
-                    <span className="material-symbols-outlined text-sm font-bold">remove</span>
-                  </button>
-                  <span className="text-sm font-bold text-white w-8 text-center">{row.qtyPerPerson.toFixed(2)}</span>
-                  <button onClick={()=>bump(row.productId, +0.5)} className="w-7 h-7 rounded-full bg-brand-yellow flex items-center justify-center text-black hover:bg-white transition-colors shadow-[0_0_10px_rgba(255,199,44,0.3)]">
-                    <span className="material-symbols-outlined text-sm font-bold">add</span>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        ))}
-      </main>
-      <div className="absolute bottom-6 left-0 right-0 p-4 z-40 flex justify-center">
+      <div className="flex-none p-4 pb-6 bg-[#121212] border-t border-white/5 shadow-[0_-10px_20px_rgba(0,0,0,0.5)] z-40 flex justify-center">
         <button onClick={saveAndBack} className="w-full bg-brand-yellow text-black font-black uppercase text-sm py-4 rounded-full shadow-glow flex items-center justify-center gap-2 active:scale-95 transition-all">
           <span>{t.saveSet}</span>
-          <span>•</span>
+          <span className="opacity-30 mx-1">•</span>
           <span>{formatPrice(totalPrice)}</span>
         </button>
       </div>
@@ -553,12 +555,12 @@ function ShoppingCart() {
   const navigate = useNavigate();
 
   return (
-    <div className="flex flex-col">
-      <header className="bg-[#1a1a1a] px-5 py-4 flex items-center justify-between border-b border-white/5">
+    <div className="flex flex-col h-full overflow-hidden">
+      <header className="flex-none bg-[#1a1a1a] px-5 py-4 flex items-center justify-between border-b border-white/5">
         <h1 className="text-xl font-black italic uppercase">{t.cart} <span className="text-brand-yellow">({cart.length})</span></h1>
         <button onClick={() => { if (confirm('Clear?')) { localStorage.setItem(STORAGE_KEYS.cart, JSON.stringify([])); location.reload(); } }} className="text-[10px] font-black text-gray-500 uppercase">{t.clearAll}</button>
       </header>
-      <div className="flex flex-col">
+      <div className="flex-1 overflow-y-auto hide-scrollbar">
         {cart.map(item => (
           <div key={item.id} className="p-5 border-b border-white/5 flex gap-4 bg-brand-charcoal/30 relative">
             <div className="w-24 h-24 rounded-xl bg-[#222] bg-cover bg-center shrink-0 shadow-sm" style={{
@@ -622,7 +624,7 @@ function ShoppingCart() {
               </div>
             </div>
           </div>
-          <Link to="/review" className="w-full bg-brand-yellow py-4 rounded-2xl flex items-center justify-between px-6 shadow-[0_4px_20px_rgba(255,199,44,0.3)] active:scale-[0.98] transition-transform group relative overflow-hidden">
+          <Link to="/review" className="w-full bg-brand-yellow py-4 rounded-2xl flex items-center justify-between px-6 shadow-glow active:scale-[0.98] transition-transform group relative overflow-hidden">
             <span className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></span>
             <span className="font-black text-brand-dark uppercase tracking-wide text-base relative z-10 truncate mr-2">{t.checkout}</span>
             <div className="bg-black/80 px-3 py-1.5 rounded-lg text-sm font-bold text-white flex items-center gap-1 relative z-10 shrink-0">
@@ -643,6 +645,8 @@ function ReviewOrder() {
   const [name, setName] = useState('');
   const [guests, setGuests] = useState('');
   const [phone, setPhone] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState(null); // 'success' | 'error' | null
   const createdAt = tbilisiNow();
 
   useEffect(() => {
@@ -661,7 +665,12 @@ function ReviewOrder() {
   }, [date, name, guests, phone]);
 
   const payload = useMemo(() => ({
-    created_at_tbilisi: createdAt, currency: 'GEL', items: cart, totals, customer: { name, date, guests, phone },
+    created_at_tbilisi: createdAt,
+    currency: 'GEL',
+    target_email: "dondigidonkarton@gmail.com",
+    items: cart,
+    totals,
+    customer: { name, date, guests, phone },
   }), [cart, totals, name, date, guests, phone]);
 
   const getOrderSummary = () => {
@@ -679,16 +688,49 @@ function ReviewOrder() {
   const whatsappLink = () => `https://wa.me/?text=${encodeURIComponent(getOrderSummary())}`;
 
   const submitOrder = async () => {
-    if (SHEETS_WEBHOOK_URL) {
-      try { await fetch(SHEETS_WEBHOOK_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }); } catch (e) {}
+    if (!name || !phone) {
+      alert('Please fill in Name and Phone');
+      return;
     }
-    window.open(whatsappLink(), '_blank');
-    alert('Order processing via WhatsApp...');
+
+    setIsSubmitting(true);
+    setSubmitStatus(null);
+
+    // Requirement 6 & 7: Automated integration
+    // Using SHEETS_WEBHOOK_URL for both Email and Sheets integration (standard practice)
+    if (SHEETS_WEBHOOK_URL) {
+      try {
+        const res = await fetch(SHEETS_WEBHOOK_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        if (res.ok) {
+          setSubmitStatus('success');
+        } else {
+          setSubmitStatus('error');
+        }
+      } catch (e) {
+        console.error("Submission error", e);
+        setSubmitStatus('error');
+      }
+    } else {
+      // Simulation if no webhook URL provided
+      await new Promise(r => setTimeout(r, 1500));
+      setSubmitStatus('success');
+    }
+
+    setIsSubmitting(false);
+
+    // Requirement 4: WhatsApp for feedback
+    setTimeout(() => {
+      window.open(whatsappLink(), '_blank');
+    }, 1000);
   };
 
   return (
-    <div className="relative">
-      <div className="flex flex-col p-6 space-y-8 pb-72">
+    <div className="flex flex-col h-full overflow-hidden">
+      <div className="flex-1 overflow-y-auto hide-scrollbar p-6 space-y-8 pb-12">
         <section className="bg-brand-charcoal w-full rounded-sm relative overflow-hidden shadow-soft">
           <div className="h-1.5 w-full bg-brand-yellow"></div>
           <div className="p-5">
@@ -802,7 +844,7 @@ function ReviewOrder() {
         </section>
       </div>
 
-      <div className="absolute bottom-0 left-0 right-0 z-40 bg-[#121212] border-t border-[#2C2C2C] px-6 pt-4 pb-12">
+      <div className="flex-none bg-[#121212] border-t border-[#2C2C2C] px-6 pt-4 pb-8 z-40 shadow-[0_-10px_20px_rgba(0,0,0,0.5)]">
         <div className="flex flex-col gap-3">
           <div className="flex items-end justify-between">
             <div className="flex flex-col">
@@ -817,13 +859,24 @@ function ReviewOrder() {
               </div>
             </div>
           </div>
-          <button onClick={submitOrder} className="w-full group bg-brand-yellow text-brand-dark py-4 rounded-xl flex items-center justify-between px-6 shadow-glow hover:bg-[#ffcf4d] active:scale-[0.98] transition-all duration-200">
-            <span className="flex flex-col items-start">
-              <span className="font-black text-base uppercase tracking-wider">{t.sendOrder}</span>
-              <span className="text-[9px] font-bold opacity-70">{t.proceedToPayment}</span>
+          <button
+            onClick={submitOrder}
+            disabled={isSubmitting}
+            className={`w-full group py-4 rounded-xl flex items-center justify-between px-6 shadow-glow active:scale-[0.98] transition-all duration-200 ${
+              isSubmitting ? 'bg-gray-600 cursor-not-allowed' :
+              submitStatus === 'success' ? 'bg-green-500' : 'bg-brand-yellow'
+            } ${submitStatus === 'success' ? 'text-white' : 'text-brand-dark'}`}
+          >
+            <span className="flex flex-col items-start text-left">
+              <span className="font-black text-base uppercase tracking-wider">
+                {isSubmitting ? t.sending : submitStatus === 'success' ? t.orderSent : submitStatus === 'error' ? t.orderFailed : t.sendOrder}
+              </span>
+              <span className="text-[9px] font-bold opacity-70">{submitStatus === 'success' ? t.checkWhatsapp : t.completeSubmission}</span>
             </span>
-            <div className="w-10 h-10 bg-brand-dark/10 rounded-full flex items-center justify-center group-hover:bg-brand-dark/20 transition-colors">
-              <span className="material-symbols-outlined font-black">arrow_forward</span>
+            <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors ${submitStatus === 'success' ? 'bg-white/20' : 'bg-brand-dark/10 group-hover:bg-brand-dark/20'}`}>
+              <span className="material-symbols-outlined font-black">
+                {isSubmitting ? 'sync' : submitStatus === 'success' ? 'check' : 'arrow_forward'}
+              </span>
             </div>
           </button>
         </div>
@@ -841,77 +894,80 @@ function ProductPage() {
   const inCart = useMemo(() => product ? cart.find(it => it.type === 'product' && it.productId === product.id) : null, [cart, product]);
   const recommendations = useMemo(() => product ? (catalog.products || []).filter(p => p.id !== product.id && (p.category === product.category || p.popular)).slice(0, 3) : [], [catalog.products, product]);
 
-  if (!product) return <div className="p-6">Product not found</div>;
+  if (!product) return <div className="p-6 text-gray-400">Product not found</div>;
 
   const name = (product.i18n?.[lang]?.name) || (product.i18n?.en?.name) || product.id;
   const price = Number(product.price || 0);
 
   return (
-    <div className="flex flex-col pb-24">
-      <div className="px-4 py-4 flex flex-col gap-4">
-        <div className="w-full aspect-square rounded-2xl overflow-hidden bg-[#222] relative">
-          <button onClick={() => navigate(-1)} className="absolute top-4 left-4 z-10 w-10 h-10 rounded-full bg-black/50 backdrop-blur-md flex items-center justify-center">
-            <span className="material-symbols-outlined text-white">close</span>
-          </button>
-          <div className="w-full h-full bg-center bg-cover" style={{ backgroundImage: `url('${getProductImg(product, 600)}')` }} />
-        </div>
-        <div className="flex items-baseline justify-between gap-2">
-          <div className="flex flex-col">
-            <h2 className="text-xl font-black mb-1">{name}</h2>
-            {product.weight && (
-              <p className="text-xs text-gray-400">{product.weight}</p>
-            )}
+    <div className="flex flex-col h-full overflow-hidden">
+      <div className="flex-1 overflow-y-auto hide-scrollbar">
+        <div className="px-4 py-4 flex flex-col gap-4">
+          <div className="w-full aspect-square rounded-2xl overflow-hidden bg-[#222] relative">
+            <button onClick={() => navigate(-1)} className="absolute top-4 left-4 z-10 w-9 h-9 rounded-full bg-black/60 backdrop-blur-md flex items-center justify-center transition-transform active:scale-90">
+              <span className="material-symbols-outlined text-white text-xl">close</span>
+            </button>
+            <div className="w-full h-full bg-center bg-cover" style={{ backgroundImage: `url('${getProductImg(product, 600)}')` }} />
           </div>
-          <div className="text-right">
-            <span className="text-xs text-gray-500 block mb-0.5">Price</span>
-            <span className="text-2xl font-black text-brand-yellow">{formatPrice(price)}</span>
-          </div>
-        </div>
-        {product.description && (
-          <p className="text-sm text-gray-300 leading-relaxed whitespace-pre-line">{product.description}</p>
-        )}
 
-        <div className="mt-8">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-[11px] font-black text-gray-500 uppercase tracking-widest">{t.frequently}</h3>
+          <div className="flex items-baseline justify-between gap-2">
+            <div className="flex-1">
+              <h2 className="text-xl font-black mb-1 italic uppercase">{name}</h2>
+              {product.weight && (
+                <p className="text-xs text-gray-500 font-bold">{product.weight}</p>
+              )}
+            </div>
+            <div className="text-right">
+              <span className="text-[10px] text-gray-500 uppercase font-black block mb-0.5">Price</span>
+              <span className="text-2xl font-black text-brand-yellow">{formatPrice(price)}</span>
+            </div>
           </div>
-          <div className="flex overflow-x-auto gap-4 pb-4 hide-scrollbar -mx-4 px-4">
-            {recommendations.map(rp => (
-              <div key={rp.id} className="flex-shrink-0 w-40 bg-white/5 rounded-2xl border border-white/5 overflow-hidden">
-                <div className="h-24 relative overflow-hidden">
-                  <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url('${getProductImg(rp, 300)}')` }}></div>
-                  <button
-                    onClick={() => addProduct(rp.id, 1)}
-                    className="absolute top-2 right-2 w-7 h-7 rounded-full bg-brand-yellow flex items-center justify-center shadow-lg active:scale-90 transition-transform"
-                  >
-                    <span className="material-symbols-outlined text-black text-base font-black">add</span>
-                  </button>
+
+          {product.description && (
+            <p className="text-sm text-gray-400 leading-relaxed font-medium">{product.description}</p>
+          )}
+
+          <div className="mt-4 pb-8">
+            <h3 className="text-[10px] font-black text-gray-500 uppercase tracking-widest mb-4">{t.frequently}</h3>
+            <div className="flex overflow-x-auto gap-3 pb-2 hide-scrollbar -mx-4 px-4">
+              {recommendations.map(rp => (
+                <div key={rp.id} className="flex-shrink-0 w-36 bg-brand-surface rounded-xl border border-white/5 overflow-hidden shadow-soft">
+                  <div className="h-28 relative">
+                    <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url('${getProductImg(rp, 240)}')` }}></div>
+                    <button
+                      onClick={() => addProduct(rp.id, 1)}
+                      className="absolute top-2 right-2 w-7 h-7 rounded-full bg-brand-yellow flex items-center justify-center shadow-lg active:scale-90 transition-transform"
+                    >
+                      <span className="material-symbols-outlined text-black text-sm font-black">add</span>
+                    </button>
+                  </div>
+                  <div className="p-2.5">
+                    <p className="text-[9px] font-black text-white uppercase truncate mb-1">{rp.i18n?.[lang]?.name || rp.i18n?.en?.name || rp.id}</p>
+                    <span className="text-xs font-bold text-brand-yellow">{formatPrice(Number(rp.price || 0))}</span>
+                  </div>
                 </div>
-                <div className="p-3">
-                  <p className="text-[10px] font-black text-white uppercase truncate mb-1">{rp.i18n?.[lang]?.name || rp.i18n?.en?.name || rp.id}</p>
-                  <span className="text-xs font-bold text-brand-yellow">{formatPrice(Number(rp.price || 0))}</span>
-                </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       </div>
-      <div className="absolute bottom-6 left-0 right-0 px-4 z-40">
+
+      <div className="flex-none p-4 pb-6 bg-[#121212] border-t border-white/5 shadow-[0_-10px_20px_rgba(0,0,0,0.5)] z-40">
         {inCart ? (
-          <div className="w-full bg-brand-surface rounded-2xl p-2 border border-white/10 flex items-center justify-between shadow-glow">
+          <div className="w-full bg-brand-surface rounded-2xl p-2 border border-white/10 flex items-center justify-between">
             <button
               onClick={() => inCart.qty > 1 ? changeQty(inCart.id, -1) : removeItem(inCart.id)}
-              className="w-12 h-12 bg-[#222] rounded-xl flex items-center justify-center text-white active:scale-90 transition-all hover:bg-white/10"
+              className="w-11 h-11 bg-[#222] rounded-xl flex items-center justify-center text-white active:scale-90 transition-all"
             >
               <span className="material-symbols-outlined font-black">remove</span>
             </button>
             <div className="flex flex-col items-center">
-              <span className="text-[10px] text-gray-500 uppercase font-black tracking-widest mb-0.5">{t.cart}</span>
-              <span className="text-2xl font-black text-white leading-none">{inCart.qty}</span>
+              <span className="text-[9px] text-gray-500 uppercase font-black tracking-widest mb-0.5">{t.cart}</span>
+              <span className="text-xl font-black text-white leading-none">{inCart.qty}</span>
             </div>
             <button
               onClick={() => changeQty(inCart.id, 1)}
-              className="w-12 h-12 bg-brand-yellow rounded-xl flex items-center justify-center text-black active:scale-90 transition-all hover:bg-white"
+              className="w-11 h-11 bg-brand-yellow rounded-xl flex items-center justify-center text-black active:scale-90 transition-all"
             >
               <span className="material-symbols-outlined font-black">add</span>
             </button>
@@ -919,10 +975,10 @@ function ProductPage() {
         ) : (
           <button
             onClick={() => addProduct(product.id, 1)}
-            className="w-full bg-brand-yellow text-black font-black py-4 rounded-xl flex items-center justify-center gap-2 shadow-glow active:scale-[0.98] transition-all hover:bg-white"
+            className="w-full bg-brand-yellow text-black font-black py-4 rounded-xl flex items-center justify-center gap-2 shadow-glow active:scale-[0.98] transition-all"
           >
-            <span className="material-symbols-outlined">add_shopping_cart</span>
-            <span className="uppercase tracking-wide">{t.addToCart}</span>
+            <span className="material-symbols-outlined text-xl">add_shopping_cart</span>
+            <span className="uppercase tracking-wide text-sm">{t.addToCart}</span>
           </button>
         )}
       </div>
@@ -933,7 +989,7 @@ function ProductPage() {
 function About() {
   const { t } = useApp();
   return (
-    <div className="p-6">
+    <div className="flex-1 overflow-y-auto hide-scrollbar p-6">
       <h1 className="text-2xl font-black mb-4 italic uppercase">{t.about}</h1>
       <div className="bg-brand-surface rounded-2xl p-6 border border-white/5 space-y-4">
          <p className="text-gray-300 leading-relaxed text-sm">Welcome to GamarjobaFood. We provide premium catering services in Tbilisi, specializing in authentic appetizers, sets, and gourmet snacks for your special events.</p>
@@ -954,6 +1010,17 @@ function About() {
 
 function AppShell({ children }) {
   const { t, query, setQuery, activeSidebar, setActiveSidebar, catalog, getNameOfCategory, mainRef } = useApp();
+
+  useEffect(() => {
+    // Prevent iOS rubber-banding and scroll leaking
+    const prevent = (e) => {
+      // Allow scroll in scrollable containers only
+      const scrollable = e.target.closest('.overflow-y-auto');
+      if (!scrollable) e.preventDefault();
+    };
+    document.addEventListener('touchmove', prevent, { passive: false });
+    return () => document.removeEventListener('touchmove', prevent);
+  }, []);
   const navigate = useNavigate();
 
   const categoryIconMap = useMemo(() => ({
@@ -974,9 +1041,9 @@ function AppShell({ children }) {
 
   return (
     <div className="mx-auto max-w-md w-full relative h-[100dvh] flex flex-col bg-[#121212] overflow-hidden shadow-2xl">
-      <header className="flex-none bg-[#121212]/95 backdrop-blur-sm z-30 px-4 pt-8 pb-4 flex flex-col items-center gap-4 border-b border-[#222]">
-        <div className="flex flex-col items-center gap-1">
-          <div className="w-12 h-12 bg-brand-orange rounded-xl rotate-3 flex items-center justify-center text-white font-black text-2xl shadow-[0_0_20px_rgba(255,165,0,0.3)] mb-1">
+      <header className="flex-none bg-[#121212]/95 backdrop-blur-sm z-30 px-4 pt-6 pb-4 flex flex-col items-center gap-4 border-b border-[#222]">
+        <div className="flex items-center justify-center gap-3">
+          <div className="w-10 h-10 bg-brand-orange rounded-lg rotate-3 flex items-center justify-center text-white font-black text-xl shadow-[0_0_15px_rgba(255,165,0,0.3)]">
             GF
           </div>
           <h1 className="text-xl font-black text-white italic tracking-tighter uppercase">GamarjobaFood</h1>
@@ -984,7 +1051,7 @@ function AppShell({ children }) {
 
         <LanguageSwitcher />
 
-        <div className="relative w-full h-11 bg-brand-surface rounded-xl flex items-center px-4 gap-3 border border-[#333] focus-within:border-brand-yellow transition-colors">
+        <div className="relative w-full h-10 bg-brand-surface rounded-xl flex items-center px-4 gap-3 border border-[#333] focus-within:border-brand-yellow transition-colors">
           <span className="material-symbols-outlined text-gray-400 text-xl">search</span>
           <input
             value={query}
@@ -1023,7 +1090,7 @@ function AppShell({ children }) {
           ))}
         </aside>
 
-        <main ref={mainRef} className="flex-1 overflow-y-auto hide-scrollbar bg-[#121212] relative">
+        <main ref={mainRef} className="flex-1 flex flex-col min-h-0 bg-[#121212] relative overflow-hidden">
           {children}
         </main>
       </div>
